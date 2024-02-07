@@ -20,10 +20,15 @@ public class Robot extends TimedRobot {
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
+  
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
    */
+  public static IO io = new IO();
+  public static Drivetrain driveTrain = new Drivetrain();
+  public static Manipulator manipulator = new Manipulator();
+
   @Override
   public void robotInit() {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
@@ -74,11 +79,22 @@ public class Robot extends TimedRobot {
 
   /** This function is called once when teleop is enabled. */
   @Override
-  public void teleopInit() {}
+  public void teleopInit() {
+    
+  }
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+
+    Drivetrain.driveArcadeWithJoystick();
+
+    IO.driveButtonsPressedJoystick();
+ 
+    IO.controlButtonsPressed(); 
+  }
+
+  
 
   /** This function is called once when the robot is disabled. */
   @Override
