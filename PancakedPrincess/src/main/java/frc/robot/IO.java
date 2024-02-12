@@ -34,8 +34,8 @@ public class IO {
     public static final int START_BUTTON = 8;
     public static final int L_STICK_BUTTON = 7;
     public static final int R_STICK_BUTTON = 10;
-    public static final int L_TRIGGER_BUTTON = 11;
-    public static final int R_TRIGGER_BUTTON = 12;
+    public static final int L_TRIGGER_BUTTON = 3;
+    public static final int R_TRIGGER_BUTTON = 4;
 
     public static final int STICK_TRIGGER = 1;
 
@@ -90,6 +90,13 @@ public class IO {
             case STICK_TRIGGER:
                 Drivetrain.sprintMode(true);
                 break;
+            case L_TRIGGER_BUTTON:
+                System.out.println("left");
+                Drivetrain.leftSpin();
+                break;
+            case R_TRIGGER_BUTTON:
+                System.out.println("right");
+                Drivetrain.rightSpin();
                 
             default:
                 Drivetrain.sprintMode(false);
@@ -100,18 +107,24 @@ public class IO {
     public static void controlButtonsPressed() {//DRIVE CONTROLLER
         switch (buttonPressed(IO.controlJoystick)) {
             case A_BUTTON:
+                Manipulator.shoot(0.5,0.5);
                 break;
             case B_BUTTON:
                 break;
             case X_BUTTON:
                 break;
             case Y_BUTTON:
+                Manipulator.intakeIn();
                 break;
             case LB_BUTTON:
                 Manipulator.intakeOut();
                 break;
             case RB_BUTTON:
-                Manipulator.intakeIn();
+                if (Robot.frontIntakeSwitch.get()) {
+                    Manipulator.intakeIn();
+                } else {
+                    Manipulator.intakeStop();
+                }
                 break;
             case START_BUTTON:
                 break;

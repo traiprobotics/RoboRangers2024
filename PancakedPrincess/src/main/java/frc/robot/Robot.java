@@ -17,6 +17,7 @@ import org.opencv.core.Point;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -30,7 +31,10 @@ public class Robot extends TimedRobot {
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
+  public static DigitalInput frontIntakeSwitch;
   
+  public static int counter = 0;
+
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -50,6 +54,7 @@ public class Robot extends TimedRobot {
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
 
+    frontIntakeSwitch = new DigitalInput(0);
     m_visionThread =
       new Thread(
         () -> {
@@ -146,6 +151,10 @@ public class Robot extends TimedRobot {
     IO.driveButtonsPressedJoystick();
  
     IO.controlButtonsPressed(); 
+
+    counter++;
+    System.out.println(counter);
+
   }
 
   

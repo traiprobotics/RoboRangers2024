@@ -87,4 +87,13 @@ public Drivetrain() {
         backLeftDrive.stopMotor();
         backRightDrive.stopMotor();
     }
+
+    public static void rightSpin() {
+
+    }      
+
+    public static void leftSpin() {
+
+    
+    }
 }
