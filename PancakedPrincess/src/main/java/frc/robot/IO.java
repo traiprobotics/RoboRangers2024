@@ -24,18 +24,18 @@ public class IO {
 
     public static final int PAD = 16;
 
-    public static final int A_BUTTON = 7;
+    public static final int A_BUTTON = 4;
     public static final int B_BUTTON = 3;
     public static final int X_BUTTON = 1;
-    public static final int Y_BUTTON = 4;
+    public static final int Y_BUTTON = 3;
     public static final int LB_BUTTON = 5;
     public static final int RB_BUTTON = 6;
     public static final int BACK_BUTTON = 9;
     public static final int START_BUTTON = 8;
-    public static final int L_STICK_BUTTON = 7;
-    public static final int R_STICK_BUTTON = 10;
-    public static final int L_TRIGGER_BUTTON = 3;
-    public static final int R_TRIGGER_BUTTON = 4;
+    public static final int L_STICK_BUTTON = 12;
+    public static final int R_STICK_BUTTON = 13;
+    public static final int L_TRIGGER_BUTTON = 7;
+    public static final int R_TRIGGER_BUTTON = 8;
 
     public static final int STICK_TRIGGER = 1;
 
@@ -92,11 +92,11 @@ public class IO {
                 break;
             case L_TRIGGER_BUTTON:
                 System.out.println("left");
-                Drivetrain.leftSpin();
+                // Drivetrain.leftSpin();
                 break;
             case R_TRIGGER_BUTTON:
                 System.out.println("right");
-                Drivetrain.rightSpin();
+                // Drivetrain.rightSpin();
                 
             default:
                 Drivetrain.sprintMode(false);
@@ -107,31 +107,33 @@ public class IO {
     public static void controlButtonsPressed() {//DRIVE CONTROLLER
         switch (buttonPressed(IO.controlJoystick)) {
             case A_BUTTON:
-                Manipulator.shoot(0.5,0.5);
+                Manipulator.shoot(0.3,0.3);
                 break;
             case B_BUTTON:
                 break;
             case X_BUTTON:
                 break;
-            case Y_BUTTON:
+            case RB_BUTTON:
                 Manipulator.intakeIn();
+                Manipulator.shoot(1.0, 0.8);
                 break;
             case LB_BUTTON:
                 Manipulator.intakeOut();
                 break;
-            case RB_BUTTON:
-                if (Robot.frontIntakeSwitch.get()) {
-                    Manipulator.intakeIn();
-                } else {
-                    Manipulator.intakeStop();
-                }
-                break;
+            // case RB_BUTTON:
+            //     if (Robot.frontIntakeSwitch.get()) {
+            //         Manipulator.intakeIn();
+            //     } else {
+            //         Manipulator.intakeStop();
+            //     }
+            //     break;
             case START_BUTTON:
                 break;
             case BACK_BUTTON:
                 break;
             default:
                 Manipulator.intakeStop();
+                Manipulator.shooterStop();
                 // Manipulator.automaticIntake(false);
             break;
         }

@@ -153,7 +153,7 @@ public class Robot extends TimedRobot {
     IO.controlButtonsPressed(); 
 
     counter++;
-    System.out.println(counter);
+    //System.out.println(counter);
 
   }
 
