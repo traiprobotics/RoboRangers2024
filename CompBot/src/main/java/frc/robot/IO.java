@@ -115,15 +115,15 @@ public class IO {
             case X_BUTTON:
                 break;
             case RB_BUTTON:
-                Manipulator.intakeIn();
-                Manipulator.indexIn();
+                Manipulator.backIntakeIn();
+                //Manipulator.indexIn();
                 //Manipulator.shoot(1.0, 1.0);
                 break;
             case LB_BUTTON:
-                Manipulator.indexIn();
+                Manipulator.frontIntakeIn();
                 break;
             case A_BUTTON:
-                Manipulator.indexOut();
+               // Manipulator.indexOut();
                 break;
             // case RB_BUTTON:
             //     if (Robot.frontIntakeSwitch.get()) {

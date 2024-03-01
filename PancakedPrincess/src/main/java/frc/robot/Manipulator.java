@@ -32,8 +32,9 @@ public Manipulator(){
         shooterRight = new CANSparkMax(5, com.revrobotics.CANSparkLowLevel.MotorType.kBrushless);
 
         intake.setInverted(false);
-        feeder.setInverted(true);
-        shooterLeft.setInverted(true);
+        feeder.setInverted(false);
+        shooterRight.setInverted(true);
+        shooterLeft.setInverted(false);
 
 
         //Set smart amp limit LOWER
@@ -43,17 +44,28 @@ public Manipulator(){
 
     public static void intakeOut(){
         intake.set(1.0f);
-        feeder.set(-1.0f);
     }
 
     public static void intakeIn(){
-        intake.set(-1.0f);
-        feeder.set(1.0f);     
+        intake.set(-0.75f);   
+    }
+
+    public static void indexIn() {
+        feeder.set(1.0f);  
+    }
+
+    public static void indexOut() {
+        feeder.set(-0.5);
+        System.out.println("AAAAAA");
     }
 
     public static void shoot(double leftSpeed,double rightSpeed) {
         shooterLeft.set(leftSpeed);
         shooterRight.set(rightSpeed);
+        // Robot.counter = 0;
+        // if (Robot.counter > 100) {
+        //     feeder.set(1.0f);
+        // }
         System.out.println("FIRE IN THE HOLE");
         
     }
@@ -67,5 +79,7 @@ public Manipulator(){
         shooterLeft.stopMotor();
         shooterRight.stopMotor();
     }
+
+
 }
 
