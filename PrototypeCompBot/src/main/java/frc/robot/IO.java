@@ -31,7 +31,7 @@ public class IO {
     public static final int LB_BUTTON = 5;
     public static final int RB_BUTTON = 6;
     public static final int BACK_BUTTON = 9;
-    public static final int START_BUTTON = 8;
+    public static final int START_BUTTON = 10;
     public static final int L_STICK_BUTTON = 12;
     public static final int R_STICK_BUTTON = 13;
     public static final int L_TRIGGER_BUTTON = 7;
@@ -107,22 +107,28 @@ public class IO {
     public static void controlButtonsPressed() {//DRIVE CONTROLLER
         switch (buttonPressed(IO.controlJoystick)) {
             case Y_BUTTON:
-                Manipulator.shoot(1,1);
+                
+                Turret.driveShooterPitch(1);
                 break;
             case B_BUTTON:
-                Manipulator.shooterStop();
+                Turret.shoot(1,1);
+                
                 break;
             case X_BUTTON:
+                Turret.shooterPitchStop();
+                Turret.shooterStop();
+                Turret.indexerStop();
                 break;
             case RB_BUTTON:
-                Manipulator.backIntakeIn();
-                //Manipulator.indexIn();
-                //Manipulator.shoot(1.0, 1.0);
+               // Manipulator.backIntakeIn();
+                Turret.indexIn();
+                Turret.shoot(1.0, 1.0);
                 break;
             case LB_BUTTON:
                 Manipulator.frontIntakeIn();
                 break;
             case A_BUTTON:
+                Turret.driveShooterPitch(-0.6);
                // Manipulator.indexOut();
                 break;
             // case RB_BUTTON:
@@ -133,12 +139,18 @@ public class IO {
             //     }
             //     break;
             case START_BUTTON:
+                Turret.rotateTurret(0.3);
+                System.out.println("POSITIVE");
                 break;
             case BACK_BUTTON:
+            Turret.rotateTurret(-0.3);
+            System.out.println("NEGATIVE");
                 break;
             default:
                 Manipulator.intakeStop();
-               // Manipulator.shooterStop();
+                Turret.shooterPitchStop();
+                Turret.stopTurret();
+                
                 // Manipulator.automaticIntake(false);
             break;
         }

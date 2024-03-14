@@ -17,6 +17,8 @@ import org.opencv.core.Point;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 
+import com.revrobotics.SparkMaxAlternateEncoder;
+
 import edu.wpi.first.wpilibj.DigitalInput;
 
 /**
@@ -32,6 +34,7 @@ public class Robot extends TimedRobot {
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
   public static DigitalInput frontIntakeSwitch;
+
   
   public static int counter = 0;
 
@@ -42,6 +45,7 @@ public class Robot extends TimedRobot {
   public static IO io = new IO();
   public static Drivetrain driveTrain = new Drivetrain();
   public static Manipulator manipulator = new Manipulator();
+  public static Turret turret = new Turret();
 
 
 
@@ -152,8 +156,10 @@ public class Robot extends TimedRobot {
  
     IO.controlButtonsPressed(); 
 
+    
+
     counter++;
-    //System.out.println(counter);
+   // System.out.println(turret.getShooterPitch());
 
   }
 
