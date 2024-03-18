@@ -20,7 +20,12 @@ public final class Constants {
   }
 
   public static class DrivetrainConstants {
-    public static final double RAMP_RATE = 1;
-    public static double SPEED = 0.6;
+    public static final double RAMP_RATE = 0;
+    public static double DEFAULT_DRIVE_SPEED = 0.6;
+    public static double DEFAULT_TURN_SPEED = 0.6;
+  }
+
+  public static class IntakeConstants {
+    public static double INTAKE_SPEED = 0.5;
   }
 }

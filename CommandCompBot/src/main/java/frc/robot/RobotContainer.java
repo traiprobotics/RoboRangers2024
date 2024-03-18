@@ -5,12 +5,16 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.StadiaController.Button;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.DriveArcade;
+import frc.robot.commands.RunIntake;
 import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
+import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -22,17 +26,27 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  public static final DrivetrainSubsystem drivetrain = new DrivetrainSubsystem();
+  private static final DrivetrainSubsystem m_drivetrain = new DrivetrainSubsystem();
+  private static final IntakeSubsystem m_intake = new IntakeSubsystem();
+
+  private Joystick driveJoystick = new Joystick(0);
+  private CommandXboxController controlController = new CommandXboxController(1);
+  //Trigger rightBumper = controlController.rightBumper();
+
+
 
   // Replace with CommandPS4Controller, CommandJoystick, CommandXboxController if needed
-  public final static CommandJoystick driverJoystick =
-      new CommandJoystick(OperatorConstants.DRIVER_CONTROLLER);
-
+  
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
-    drivetrain.setDefaultCommand(new DriveArcade());
+    defaultCommands();
+    
+  }
+
+  private void defaultCommands() {
+    m_drivetrain.setDefaultCommand(new DriveArcade(m_drivetrain, driveJoystick));
   }
 
   /**
@@ -52,6 +66,8 @@ public class RobotContainer {
     // // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // // cancelling on release.
     // m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+
+    controlController.rightBumper().whileTrue(new RunIntake(m_intake));
   }
 
   /**

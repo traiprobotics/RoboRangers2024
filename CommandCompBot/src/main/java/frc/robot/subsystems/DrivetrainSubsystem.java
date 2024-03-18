@@ -5,7 +5,8 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.motorcontrol.PWMMotorController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -18,42 +19,52 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 public class DrivetrainSubsystem extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
 
-  private static DifferentialDrive driveTrain;
 
-  private static CANSparkMax frontLeftDrive = null;
-  private static CANSparkMax frontRightDrive = null;
-  private static CANSparkMax backLeftDrive = null;
-  private static CANSparkMax backRightDrive = null;
+  private static CANSparkMax frontLeftDrive = new CANSparkMax(1,MotorType.kBrushless);;
+  private static CANSparkMax frontRightDrive = new CANSparkMax(2,MotorType.kBrushless);;
+  private static CANSparkMax backLeftDrive = new CANSparkMax(3,MotorType.kBrushless);;
+  private static CANSparkMax backRightDrive = new CANSparkMax(4,MotorType.kBrushless);;
 
-  private RelativeEncoder frontRightEncoder = frontRightDrive.getEncoder();
-  private RelativeEncoder frontLeftEncoder = frontLeftDrive.getEncoder();
+  //private RelativeEncoder frontRightEncoder = frontRightDrive.getEncoder();
+  //private RelativeEncoder frontLeftEncoder = frontLeftDrive.getEncoder();
   
-  private MotorControllerGroup leftMotorControllerGroup = new MotorControllerGroup(frontLeftDrive,backLeftDrive)
+  // private MotorControllerGroup leftMotorControllerGroup = new MotorControllerGroup(frontLeftDrive,backLeftDrive)
 
-  frontLeftDrive.addFollower(backLeftDrive);
+  // PWMMotorController.addFollower(backLeftDrive);
 
-  public static float driveSpeedMultiplier;
-  public static float turnSpeedMultiplier;
+  private double driveSpeedMult = DrivetrainConstants.DEFAULT_DRIVE_SPEED; 
+  private double turnSpeedMult = DrivetrainConstants.DEFAULT_TURN_SPEED;
+
+  DifferentialDrive differentialDrive = new DifferentialDrive(frontRightDrive, frontLeftDrive);
+
 
   public DrivetrainSubsystem() {
-    frontLeftDrive = new CANSparkMax(1,MotorType.kBrushless);
-    frontRightDrive = new CANSparkMax(2,MotorType.kBrushless);
-    backLeftDrive = new CANSparkMax(3,MotorType.kBrushless);
-    backRightDrive = new CANSparkMax(4,MotorType.kBrushless);
+    //frontLeftDrive = new CANSparkMax(1,MotorType.kBrushless);
+    //frontRightDrive = new CANSparkMax(2,MotorType.kBrushless);
+    //backLeftDrive = new CANSparkMax(3,MotorType.kBrushless);
+    //backRightDrive = new CANSparkMax(4,MotorType.kBrushless);
 
     frontLeftDrive.setOpenLoopRampRate(DrivetrainConstants.RAMP_RATE);
     frontRightDrive.setOpenLoopRampRate(DrivetrainConstants.RAMP_RATE);
     backLeftDrive.setOpenLoopRampRate(DrivetrainConstants.RAMP_RATE);
     backRightDrive.setOpenLoopRampRate(DrivetrainConstants.RAMP_RATE);
     
+    frontRightDrive.setInverted(true);
+    backRightDrive.setInverted(true);
+
     backRightDrive.follow(frontRightDrive);
     backLeftDrive.follow(frontLeftDrive);
 
-    driveTrain = new DifferentialDrive(frontLeftDrive, frontRightDrive);
+
+    //driveTrain = new DifferentialDrive(frontLeftDrive, frontRightDrive);
   }
 
   public void arcadeDrive(double driveSpeed, double turnSpeed) {
-    driveTrain.arcadeDrive(driveSpeed * driveSpeedMultiplier, turnSpeed * turnSpeedMultiplier);
+    differentialDrive.arcadeDrive(driveSpeed * driveSpeedMult, turnSpeed * turnSpeedMult);
+  }
+
+  public void stop() {
+    differentialDrive.stopMotor();
   }
 
   /**
