@@ -41,7 +41,7 @@ public class Turret {
 
 
 public Turret(){
-    shooterPitch = new CANSparkMax(8,com.revrobotics.CANSparkLowLevel.MotorType.kBrushed);
+    shooterPitch = new CANSparkMax(8,com.revrobotics.CANSparkLowLevel.MotorType.kBrushless);
     indexer = new CANSparkMax(9,com.revrobotics.CANSparkLowLevel.MotorType.kBrushed);
     shooterLeft = new CANSparkMax(10,com.revrobotics.CANSparkLowLevel.MotorType.kBrushless);
     shooterRight = new CANSparkMax(11,com.revrobotics.CANSparkLowLevel.MotorType.kBrushless);

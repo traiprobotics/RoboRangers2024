@@ -15,6 +15,8 @@ package frc.robot;
 public final class Constants {
   public static class OperatorConstants {
     public static final int DRIVER_CONTROLLER = 0;
+    public static final int DRIVER_JOYSTICK_MOVE_AXIS = 1;
+    public static final int DRIVER_JOYSTICK_ROTATE_AXIS = 0;
   }
 
   public static class DrivetrainConstants {

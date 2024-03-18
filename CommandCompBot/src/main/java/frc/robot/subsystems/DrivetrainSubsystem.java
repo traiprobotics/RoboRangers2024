@@ -5,12 +5,15 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants.DrivetrainConstants;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.CANSparkLowLevel.MotorType;
 
 public class DrivetrainSubsystem extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
@@ -22,14 +25,21 @@ public class DrivetrainSubsystem extends SubsystemBase {
   private static CANSparkMax backLeftDrive = null;
   private static CANSparkMax backRightDrive = null;
 
+  private RelativeEncoder frontRightEncoder = frontRightDrive.getEncoder();
+  private RelativeEncoder frontLeftEncoder = frontLeftDrive.getEncoder();
+  
+  private MotorControllerGroup leftMotorControllerGroup = new MotorControllerGroup(frontLeftDrive,backLeftDrive)
+
+  frontLeftDrive.addFollower(backLeftDrive);
+
   public static float driveSpeedMultiplier;
   public static float turnSpeedMultiplier;
 
   public DrivetrainSubsystem() {
-    frontLeftDrive = new CANSparkMax(1,com.revrobotics.CANSparkLowLevel.MotorType.kBrushless);
-    frontRightDrive = new CANSparkMax(2,com.revrobotics.CANSparkLowLevel.MotorType.kBrushless);
-    backLeftDrive = new CANSparkMax(3,com.revrobotics.CANSparkLowLevel.MotorType.kBrushless);
-    backRightDrive = new CANSparkMax(4,com.revrobotics.CANSparkLowLevel.MotorType.kBrushless);
+    frontLeftDrive = new CANSparkMax(1,MotorType.kBrushless);
+    frontRightDrive = new CANSparkMax(2,MotorType.kBrushless);
+    backLeftDrive = new CANSparkMax(3,MotorType.kBrushless);
+    backRightDrive = new CANSparkMax(4,MotorType.kBrushless);
 
     frontLeftDrive.setOpenLoopRampRate(DrivetrainConstants.RAMP_RATE);
     frontRightDrive.setOpenLoopRampRate(DrivetrainConstants.RAMP_RATE);

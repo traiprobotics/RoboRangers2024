@@ -25,7 +25,7 @@ public class Drivetrain {
 
     private static final double RAMP_RATE = 1;
 
-    private static boolean toggleSlowSpeed = true;
+    private static boolean toggleSlowed = true;
 
 //   static SlewRateLimiter filter = new SlewRateLimiter(0.5);
 //   static SlewRateLimiter filter2 = new SlewRateLimiter(0.5);
