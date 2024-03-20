@@ -13,8 +13,8 @@ import frc.robot.Constants.IntakeConstants;
 public class IntakeSubsystem extends SubsystemBase {
   /** Creates a new Intake. */
 
-  private static CANSparkMax backIntake = new CANSparkMax(5,MotorType.kBrushed);;
-  private static CANSparkMax frontIntake = new CANSparkMax(6,MotorType.kBrushed);;
+  private static CANSparkMax backIntake = new CANSparkMax(5,MotorType.kBrushed);
+  private static CANSparkMax frontIntake = new CANSparkMax(6,MotorType.kBrushed);
 
   public IntakeSubsystem() {}
 
@@ -23,13 +23,19 @@ public class IntakeSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  public void runIntake(double speed) {
+  public void runFrontIntake(double speed) {
     frontIntake.set(speed);
+  }
+
+  public void runBackIntake(double speed) {
     backIntake.set(speed);
   }
 
-  public void stopIntake() {
+  public void stopFrontIntake() {
     frontIntake.stopMotor();
+  }
+
+  public void stopBackIntake() {
     backIntake.stopMotor();
   }
 }

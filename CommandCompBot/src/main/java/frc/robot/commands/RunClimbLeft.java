@@ -5,46 +5,40 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.Constants.IntakeConstants;
-import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.Constants.ClimbConstants;
+import frc.robot.subsystems.LeftClimbSubsystem;
 
-public class RunIntake extends Command {
-  /** Creates a new RunIntake. */
+public class RunClimbLeft extends Command {
 
-  private IntakeSubsystem intakeSubsystem;
+  private LeftClimbSubsystem leftClimbSubsystem;
 
-
-  double speed;
-
-  public RunIntake(IntakeSubsystem intake) {
-    this.intakeSubsystem = intake;
-    addRequirements(intakeSubsystem);
+  /** Creates a new RunClimbLeft. */
+  public RunClimbLeft(LeftClimbSubsystem leftClimb) {
+    this.leftClimbSubsystem = leftClimb;
+    addRequirements(leftClimbSubsystem);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
+
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    speed = 0;
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intakeSubsystem.runIntake(speed);
+    leftClimbSubsystem.driveClimb(ClimbConstants.CLIMB_SPEED);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    intakeSubsystem.stopIntake();
+    leftClimbSubsystem.stopClimb();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return false;
   }
 }

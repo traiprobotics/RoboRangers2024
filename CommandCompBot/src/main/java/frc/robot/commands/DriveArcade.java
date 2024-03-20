@@ -36,7 +36,8 @@ public class DriveArcade extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    drive = driveJoystick.getRawAxis(OperatorConstants.DRIVER_JOYSTICK_MOVE_AXIS);
+    double slider = -((driveJoystick.getRawAxis(OperatorConstants.DRIVER_JOYSTICK_SLIDER) - 1) / 2);
+    drive = driveJoystick.getRawAxis(OperatorConstants.DRIVER_JOYSTICK_MOVE_AXIS) * slider;
     turn = driveJoystick.getRawAxis(OperatorConstants.DRIVER_JOYSTICK_ROTATE_AXIS);
 
     drivetrainSubsystem.arcadeDrive(drive, turn);

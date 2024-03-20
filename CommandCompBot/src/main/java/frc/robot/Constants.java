@@ -17,6 +17,7 @@ public final class Constants {
     public static final int DRIVER_CONTROLLER = 0;
     public static final int DRIVER_JOYSTICK_MOVE_AXIS = 1;
     public static final int DRIVER_JOYSTICK_ROTATE_AXIS = 0;
+    public static final int DRIVER_JOYSTICK_SLIDER = 3;
   }
 
   public static class DrivetrainConstants {
@@ -26,6 +27,39 @@ public final class Constants {
   }
 
   public static class IntakeConstants {
-    public static double INTAKE_SPEED = 0.5;
+    public static double INTAKE_SPEED = 1;
+  }
+
+  public static class TurretConstants {
+    public static double SHOOTER_LEFT_SPEED = 1;
+    public static double SHOOTER_RIGHT_SPEED = 1;
+    public static double INDEXER_SHOOT_SPEED = 1;
+    public static double INDEXER_NORMAL_SPEED = 0.6;
+  }
+
+  public static class ClimbConstants {
+    public static final double LEFT_SERVO_UNLOCK = 0;
+    public static final double LEFT_SERVO_LOCK = 0;
+    public static final double RIGHT_SERVO_UNLOCK = 0;
+    public static final double RIGHT_SERVO_LOCK = 0;
+    public static final double CLIMB_SPEED = 0.2;
+  }
+
+  public static class PIDConstants {
+
+    public static final double YAW_MAX = 0;
+    public static final double YAW_MIN = 0;
+    public static final double YAW_FF = 0;
+    public static final double YAW_D = 0;
+    public static final double YAW_I = 0;
+    public static final double YAW_P = 0;
+
+
+    public static final double PITCH_P = 1;
+    public static final double PITCH_I = 0;
+    public static final double PITCH_D = 0;
+    public static final double PITCH_FF = 0;
+    public static final double PITCH_MIN = 0.4;
+    public static final double PITCH_MAX = 0.7;
   }
 }

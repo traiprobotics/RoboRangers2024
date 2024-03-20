@@ -4,18 +4,34 @@
 
 package frc.robot;
 
+import java.util.function.BooleanSupplier;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.StadiaController.Button;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.DriveArcade;
-import frc.robot.commands.RunIntake;
+import frc.robot.commands.RunBackIntake;
+import frc.robot.commands.RunClimbLeft;
+import frc.robot.commands.RunClimbRight;
+import frc.robot.commands.RunFrontIntake;
+import frc.robot.commands.turret.GetShooterPitchEncoder;
+import frc.robot.commands.turret.RunIndexerNormal;
+import frc.robot.commands.turret.RunIndexerShoot;
+import frc.robot.commands.turret.RunShooter;
+import frc.robot.commands.turret.driveShooterPitch;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.LeftClimbSubsystem;
+import frc.robot.subsystems.RightClimbSubsystem;
+import frc.robot.subsystems.turret.IndexerSubsystem;
+import frc.robot.subsystems.turret.ShooterPitchSubsystem;
+import frc.robot.subsystems.turret.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
@@ -28,6 +44,11 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private static final DrivetrainSubsystem m_drivetrain = new DrivetrainSubsystem();
   private static final IntakeSubsystem m_intake = new IntakeSubsystem();
+  private static final ShooterPitchSubsystem m_shooterPitch = new ShooterPitchSubsystem();
+  private static final ShooterSubsystem m_shooter = new ShooterSubsystem();
+  private static final IndexerSubsystem m_indexer = new IndexerSubsystem();
+  private static final LeftClimbSubsystem m_leftClimb = new LeftClimbSubsystem();
+  private static final RightClimbSubsystem m_rightClimb = new RightClimbSubsystem();
 
   private Joystick driveJoystick = new Joystick(0);
   private CommandXboxController controlController = new CommandXboxController(1);
@@ -47,6 +68,8 @@ public class RobotContainer {
 
   private void defaultCommands() {
     m_drivetrain.setDefaultCommand(new DriveArcade(m_drivetrain, driveJoystick));
+    m_shooterPitch.setDefaultCommand(new GetShooterPitchEncoder(m_shooterPitch));
+    m_shooterPitch.setDefaultCommand(new driveShooterPitch(m_shooterPitch, controlController));
   }
 
   /**
@@ -67,7 +90,21 @@ public class RobotContainer {
     // // cancelling on release.
     // m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
 
-    controlController.rightBumper().whileTrue(new RunIntake(m_intake));
+    controlController.rightBumper().whileTrue(new RunFrontIntake(m_intake));
+    controlController.leftBumper().whileTrue(new RunBackIntake(m_intake));
+    controlController.y().whileTrue(new RunShooter(m_shooter));
+    controlController.x().whileTrue(new RunIndexerShoot(m_indexer));
+    controlController.a().whileTrue(new RunIndexerNormal(m_indexer));
+   
+    Trigger button11 = new JoystickButton(driveJoystick, 11);
+    button11.whileTrue(new RunClimbLeft(m_leftClimb));
+
+    Trigger button12 = new JoystickButton(driveJoystick, 12);
+    button12.whileTrue(new RunClimbRight(m_rightClimb));
+
+
+
+    //.whileTrue(new RunClimbLeft(m_leftClimb));
   }
 
   /**
