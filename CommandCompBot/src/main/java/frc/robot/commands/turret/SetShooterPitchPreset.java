@@ -5,35 +5,38 @@
 package frc.robot.commands.turret;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.TurretConstants;
-import frc.robot.subsystems.turret.IndexerSubsystem;
-import frc.robot.subsystems.turret.ShooterSubsystem;
+import frc.robot.subsystems.turret.ShooterPitchSubsystem;
 
-public class RunIndexerNormal extends Command {
-  /** Creates a new RunIndexer. */
+public class SetShooterPitchPreset extends Command {
+  /** Creates a new AmpScore. */
 
-  private IndexerSubsystem indexerSubsystem;
+  public ShooterPitchSubsystem shooterPitchSubsystem;
+  private double previousPitch;
+  private double rotation;
 
-  public RunIndexerNormal(IndexerSubsystem indexer) {
-    this.indexerSubsystem = indexer;
-    addRequirements(indexerSubsystem);
+  public SetShooterPitchPreset(ShooterPitchSubsystem shooterPitch, double rotation) {
     // Use addRequirements() here to declare subsystem dependencies.
+    this.shooterPitchSubsystem = shooterPitch;
+    this.rotation = rotation;
+    addRequirements(shooterPitchSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    previousPitch = shooterPitchSubsystem.getEncoder();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    indexerSubsystem.runIndexer(TurretConstants.INDEXER_NORMAL_SPEED);
+    shooterPitchSubsystem.setPitch(rotation);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    indexerSubsystem.stopIndexer();
+    shooterPitchSubsystem.setPitch(previousPitch);
   }
 
   // Returns true when the command should end.

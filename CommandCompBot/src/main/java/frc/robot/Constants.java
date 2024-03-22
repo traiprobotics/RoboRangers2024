@@ -49,8 +49,8 @@ public final class Constants {
 
   public static class PIDConstants {
 
-    public static final double YAW_MAX = 0;
-    public static final double YAW_MIN = 0;
+    public static final double YAW_POWER_MAX = 0;
+    public static final double YAW_POWER_MIN = 0;
     public static final double YAW_FF = 0;
     public static final double YAW_D = 0;
     public static final double YAW_I = 0;
@@ -61,9 +61,15 @@ public final class Constants {
     public static final double PITCH_I = 0;
     public static final double PITCH_D = 0;
     public static final double PITCH_FF = 0;
-    public static final double PITCH_MIN = -1;
-    public static final double PITCH_MAX = 1;
+    public static final double PITCH_POWER_MIN = -0.5;
+    //make the arm go slower when it lowers, as it is aided by gravity
+    public static final double PITCH_POWER_MAX = 1;
 
-    public static final double HOME_ROT = 0.55;
+  }
+
+  public static class PitchConstants {
+    public static final double PITCH_MIN = 0.4;
+    public static final double PITCH_MAX = 0.7;
+    public static final double AMP_SCORE_PITCH = 0.65;
   }
 }

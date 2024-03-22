@@ -5,16 +5,13 @@
 package frc.robot.commands.turret;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.TurretConstants;
-import frc.robot.subsystems.turret.IndexerSubsystem;
 import frc.robot.subsystems.turret.ShooterSubsystem;
 
 public class RunShooter extends Command {
   /** Creates a new RunShooter. */
 
   private ShooterSubsystem shooterSubsystem;
-  private IndexerSubsystem indexerSubsystem;
 
   public RunShooter(ShooterSubsystem shooter) {
     this.shooterSubsystem = shooter;

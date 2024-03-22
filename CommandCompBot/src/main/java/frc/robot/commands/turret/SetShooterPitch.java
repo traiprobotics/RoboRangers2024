@@ -5,9 +5,9 @@
 package frc.robot.commands.turret;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.Constants.PitchConstants;
 import frc.robot.subsystems.turret.ShooterPitchSubsystem;
 
 
@@ -36,22 +36,16 @@ public class SetShooterPitch extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-   // if (Math.abs(controlController.getRawAxis(3)) >= 0.02) {
-      rotation = MathUtil.clamp(((controlController.getRawAxis(3) + 1) / 3), 0.35, 0.57);
-   // }
+
+    double joystickOutput = MathUtil.clamp(-controlController.getRawAxis(3), 0, 1);
+    double range = PitchConstants.PITCH_MAX - PitchConstants.PITCH_MIN;
+    rotation = PitchConstants.PITCH_MIN + (joystickOutput * range);
+    //translates 0 to -1 (middle to top) on joystick to values within the min and max of the pitch range
+    //this should basically just hold the position at PITCH_MAX unless the joystick is moved, and the pitch will change proportional to the joystick
 
     System.out.println(rotation);
     shooterPitchSubsystem.setPitch(rotation);
     
-
-    // if (speed >= 0) {
-    //   speed = speed / 2;
-    // }
-    
-    // shooterPitchSubsystem.drivePitch(speed / 5);
-    // if (speed >= 0.2) {
-    //   System.out.println(speed);
-    // }
   }
 
   // Called once the command ends or is interrupted.

@@ -27,7 +27,7 @@ public class ShooterPitchSubsystem extends SubsystemBase {
     shooterPitch.setSmartCurrentLimit(40);
 
     shooterPitchEncoder = shooterPitch.getAbsoluteEncoder();
-    shooterPitchEncoder.setInverted(true);
+    shooterPitchEncoder.setInverted(false);
 
     shooterPIDController = shooterPitch.getPIDController();
     shooterPIDController.setFeedbackDevice(shooterPitchEncoder);
@@ -36,12 +36,8 @@ public class ShooterPitchSubsystem extends SubsystemBase {
     shooterPIDController.setI(PIDConstants.PITCH_I);
     shooterPIDController.setD(PIDConstants.PITCH_D);
     shooterPIDController.setFF(PIDConstants.PITCH_FF);
-    shooterPIDController.setOutputRange(PIDConstants.PITCH_MIN, PIDConstants.PITCH_MAX);
+    shooterPIDController.setOutputRange(PIDConstants.PITCH_POWER_MIN, PIDConstants.PITCH_POWER_MAX);
     
-  }
-
-  public void drivePitch(double pitchSpeed) {
-    shooterPitch.set(pitchSpeed);
   }
 
   public void setPitch(double rotations) {

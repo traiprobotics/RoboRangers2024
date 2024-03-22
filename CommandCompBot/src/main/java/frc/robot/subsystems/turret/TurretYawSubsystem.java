@@ -32,7 +32,7 @@ public class TurretYawSubsystem extends SubsystemBase {
     turretPIDController.setI(PIDConstants.YAW_I);
     turretPIDController.setD(PIDConstants.YAW_D);
     turretPIDController.setFF(PIDConstants.YAW_FF);
-    turretPIDController.setOutputRange(PIDConstants.YAW_MIN, PIDConstants.YAW_MAX);
+    turretPIDController.setOutputRange(PIDConstants.YAW_POWER_MIN, PIDConstants.YAW_POWER_MAX);
 
   }
 

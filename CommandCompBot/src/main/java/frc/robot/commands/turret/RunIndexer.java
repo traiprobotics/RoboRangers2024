@@ -5,36 +5,35 @@
 package frc.robot.commands.turret;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.turret.ShooterPitchSubsystem;
+import frc.robot.subsystems.turret.IndexerSubsystem;
 
-public class AmpScore extends Command {
-  /** Creates a new AmpScore. */
+public class RunIndexer extends Command {
+  /** Creates a new RunIndexer. */
 
-  public ShooterPitchSubsystem shooterPitchSubsystem;
-  private double previousPitch;
+  private IndexerSubsystem indexerSubsystem;
+  private double speed;
 
-  public AmpScore(ShooterPitchSubsystem shooterPitch) {
+  public RunIndexer(IndexerSubsystem indexer, double speed) {
+    this.indexerSubsystem = indexer;
+    this.speed = speed;
+    addRequirements(indexerSubsystem);
     // Use addRequirements() here to declare subsystem dependencies.
-    this.shooterPitchSubsystem = shooterPitch;
-    addRequirements(shooterPitchSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    previousPitch = shooterPitchSubsystem.getEncoder();
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooterPitchSubsystem.setPitch(0.32);
+    indexerSubsystem.runIndexer(speed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    shooterPitchSubsystem.setPitch(previousPitch);
+    indexerSubsystem.stopIndexer();
   }
 
   // Returns true when the command should end.

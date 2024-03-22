@@ -4,24 +4,24 @@
 
 package frc.robot;
 
-import java.util.function.BooleanSupplier;
 
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.Constants.ClimbConstants;
-import frc.robot.Constants.OperatorConstants;
+import frc.robot.Constants.PitchConstants;
+import frc.robot.Constants.TurretConstants;
+
 import frc.robot.commands.Autos;
 import frc.robot.commands.DriveArcade;
 import frc.robot.commands.RunBackIntake;
 import frc.robot.commands.RunClimbLeft;
 import frc.robot.commands.RunClimbRight;
 import frc.robot.commands.RunFrontIntake;
-import frc.robot.commands.turret.AmpScore;
+import frc.robot.commands.turret.SetShooterPitchPreset;
 import frc.robot.commands.turret.GetShooterPitchEncoder;
-import frc.robot.commands.turret.RunIndexerBackwards;
-import frc.robot.commands.turret.RunIndexerNormal;
-import frc.robot.commands.turret.RunIndexerShoot;
+import frc.robot.commands.turret.RunIndexer;
 import frc.robot.commands.turret.RunShooter;
 import frc.robot.commands.turret.SetShooterPitch;
+
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LeftClimbSubsystem;
@@ -29,9 +29,7 @@ import frc.robot.subsystems.RightClimbSubsystem;
 import frc.robot.subsystems.turret.IndexerSubsystem;
 import frc.robot.subsystems.turret.ShooterPitchSubsystem;
 import frc.robot.subsystems.turret.ShooterSubsystem;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
-import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
+
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -94,10 +92,12 @@ public class RobotContainer {
 
     controlController.rightBumper().whileTrue(new RunFrontIntake(m_intake));
     controlController.leftBumper().whileTrue(new RunBackIntake(m_intake));
+
     controlController.y().whileTrue(new RunShooter(m_shooter));
-    controlController.x().whileTrue(new RunIndexerShoot(m_indexer));
-    controlController.a().whileTrue(new RunIndexerNormal(m_indexer));
-    controlController.b().whileTrue(new RunIndexerBackwards(m_indexer));
+
+    controlController.x().whileTrue(new RunIndexer(m_indexer, TurretConstants.INDEXER_SHOOT_SPEED));
+    controlController.a().whileTrue(new RunIndexer(m_indexer, TurretConstants.INDEXER_NORMAL_SPEED));
+    controlController.b().whileTrue(new RunIndexer(m_indexer, TurretConstants.INDEXER_BACK_SPEED));
    
     //raise climb arms
     Trigger button9 = new JoystickButton(driveJoystick, 9);
@@ -113,7 +113,7 @@ public class RobotContainer {
     Trigger button12 = new JoystickButton(driveJoystick, 12);
     button12.whileTrue(new RunClimbRight(m_rightClimb, ClimbConstants.CLIMB_SPEED_DOWN));
 
-    controlController.pov(0).whileTrue(new AmpScore(m_shooterPitch));
+    controlController.pov(0).whileTrue(new SetShooterPitchPreset(m_shooterPitch, PitchConstants.AMP_SCORE_PITCH));
     
 
     //.whileTrue(new RunClimbLeft(m_leftClimb));
