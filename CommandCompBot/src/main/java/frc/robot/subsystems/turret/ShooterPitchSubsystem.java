@@ -10,12 +10,13 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkPIDController;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.CANConstants;
 import frc.robot.Constants.PIDConstants;
 
 public class ShooterPitchSubsystem extends SubsystemBase {
   /** Creates a new ShooterPitchSubsystem. */
 
-  private static CANSparkMax shooterPitch = new CANSparkMax(8,MotorType.kBrushless);
+  private static CANSparkMax shooterPitch = new CANSparkMax(CANConstants.SHOOTER_PITCH,MotorType.kBrushless);
 
   private final AbsoluteEncoder shooterPitchEncoder;
   private static SparkPIDController shooterPIDController;
@@ -48,7 +49,7 @@ public class ShooterPitchSubsystem extends SubsystemBase {
     shooterPitch.stopMotor();
   }
 
-  public double getEncoder(){
+  public double getPitch(){
     return shooterPitchEncoder.getPosition();
   }
 

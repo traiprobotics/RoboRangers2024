@@ -7,8 +7,6 @@ package frc.robot.commands.turret;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.turret.ShooterPitchSubsystem;
 
-
-
 public class GetShooterPitchEncoder extends Command {
   /** Creates a new GetShooterPitchEncoder. */
   private ShooterPitchSubsystem shooterPitchSubsystem;
@@ -26,7 +24,7 @@ public class GetShooterPitchEncoder extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooterPitchSubsystem.getEncoder();
+    shooterPitchSubsystem.getPitch();
   }
 
   // Called once the command ends or is interrupted.

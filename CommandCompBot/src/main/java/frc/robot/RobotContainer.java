@@ -16,6 +16,8 @@ import frc.robot.commands.RunBackIntake;
 import frc.robot.commands.RunClimbLeft;
 import frc.robot.commands.RunClimbRight;
 import frc.robot.commands.RunFrontIntake;
+import frc.robot.commands.auto.BackIntakeAndIndex;
+import frc.robot.commands.auto.FrontIntakeAndIndex;
 import frc.robot.commands.turret.SetShooterPitchPreset;
 import frc.robot.commands.turret.GetShooterPitchEncoder;
 import frc.robot.commands.turret.RunIndexer;
@@ -115,8 +117,9 @@ public class RobotContainer {
 
     controlController.pov(0).whileTrue(new SetShooterPitchPreset(m_shooterPitch, PitchConstants.AMP_SCORE_PITCH));
     
-
-    //.whileTrue(new RunClimbLeft(m_leftClimb));
+    //semi-auto commands
+    controlController.leftTrigger().whileTrue(new BackIntakeAndIndex(m_intake, m_indexer, null, m_shooterPitch));
+    controlController.rightTrigger().whileTrue(new FrontIntakeAndIndex(m_intake, m_indexer, null, m_shooterPitch));
   }
 
   /**

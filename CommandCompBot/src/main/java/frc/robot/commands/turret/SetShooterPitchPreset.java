@@ -24,7 +24,7 @@ public class SetShooterPitchPreset extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    previousPitch = shooterPitchSubsystem.getEncoder();
+    previousPitch = shooterPitchSubsystem.getPitch();
   }
 
   // Called every time the scheduler runs while the command is scheduled.

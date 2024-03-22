@@ -7,7 +7,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
+import frc.robot.Constants.CANConstants;
 import frc.robot.Constants.DrivetrainConstants;
 
 import com.revrobotics.CANSparkMax;
@@ -17,10 +17,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
 
 
-  private static CANSparkMax frontLeftDrive = new CANSparkMax(1,MotorType.kBrushless);;
-  private static CANSparkMax frontRightDrive = new CANSparkMax(2,MotorType.kBrushless);;
-  private static CANSparkMax backLeftDrive = new CANSparkMax(3,MotorType.kBrushless);;
-  private static CANSparkMax backRightDrive = new CANSparkMax(4,MotorType.kBrushless);;
+  private static CANSparkMax frontLeftDrive = new CANSparkMax(CANConstants.FRONT_LEFT_DRIVE,MotorType.kBrushless);
+  private static CANSparkMax frontRightDrive = new CANSparkMax(CANConstants.FRONT_RIGHT_DRIVE,MotorType.kBrushless);
+  private static CANSparkMax backLeftDrive = new CANSparkMax(CANConstants.BACK_LEFT_DRIVE,MotorType.kBrushless);
+  private static CANSparkMax backRightDrive = new CANSparkMax(CANConstants.BACK_RIGHT_DRIVE,MotorType.kBrushless);
 
   //private RelativeEncoder frontRightEncoder = frontRightDrive.getEncoder();
   //private RelativeEncoder frontLeftEncoder = frontLeftDrive.getEncoder();
