@@ -2,25 +2,23 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.turret;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.ClimbConstants;
-import frc.robot.subsystems.LeftClimbSubsystem;
+import frc.robot.Constants.TurretConstants;
+import frc.robot.subsystems.turret.IndexerSubsystem;
+import frc.robot.subsystems.turret.ShooterSubsystem;
 
-public class RunClimbLeft extends Command {
+public class RunIndexerBackwards extends Command {
+  /** Creates a new RunIndexer. */
 
-  private LeftClimbSubsystem leftClimbSubsystem;
-  private double climbSpeed;
+  private IndexerSubsystem indexerSubsystem;
 
-  /** Creates a new RunClimbLeft. */
-  public RunClimbLeft(LeftClimbSubsystem leftClimb, double speed) {
-    this.leftClimbSubsystem = leftClimb;
-    this.climbSpeed = speed;
-    addRequirements(leftClimbSubsystem);
+  public RunIndexerBackwards(IndexerSubsystem indexer) {
+    this.indexerSubsystem = indexer;
+    addRequirements(indexerSubsystem);
     // Use addRequirements() here to declare subsystem dependencies.
   }
-
 
   // Called when the command is initially scheduled.
   @Override
@@ -29,13 +27,13 @@ public class RunClimbLeft extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    leftClimbSubsystem.driveClimb(climbSpeed);
+    indexerSubsystem.runIndexer(TurretConstants.INDEXER_BACK_SPEED);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    leftClimbSubsystem.stopClimb();
+    indexerSubsystem.stopIndexer();
   }
 
   // Returns true when the command should end.

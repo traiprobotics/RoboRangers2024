@@ -7,7 +7,7 @@ package frc.robot;
 import java.util.function.BooleanSupplier;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.StadiaController.Button;
+import frc.robot.Constants.ClimbConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.DriveArcade;
@@ -15,11 +15,13 @@ import frc.robot.commands.RunBackIntake;
 import frc.robot.commands.RunClimbLeft;
 import frc.robot.commands.RunClimbRight;
 import frc.robot.commands.RunFrontIntake;
+import frc.robot.commands.turret.AmpScore;
 import frc.robot.commands.turret.GetShooterPitchEncoder;
+import frc.robot.commands.turret.RunIndexerBackwards;
 import frc.robot.commands.turret.RunIndexerNormal;
 import frc.robot.commands.turret.RunIndexerShoot;
 import frc.robot.commands.turret.RunShooter;
-import frc.robot.commands.turret.driveShooterPitch;
+import frc.robot.commands.turret.SetShooterPitch;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LeftClimbSubsystem;
@@ -69,7 +71,7 @@ public class RobotContainer {
   private void defaultCommands() {
     m_drivetrain.setDefaultCommand(new DriveArcade(m_drivetrain, driveJoystick));
     m_shooterPitch.setDefaultCommand(new GetShooterPitchEncoder(m_shooterPitch));
-    m_shooterPitch.setDefaultCommand(new driveShooterPitch(m_shooterPitch, controlController));
+    m_shooterPitch.setDefaultCommand(new SetShooterPitch(m_shooterPitch, controlController));
   }
 
   /**
@@ -95,14 +97,24 @@ public class RobotContainer {
     controlController.y().whileTrue(new RunShooter(m_shooter));
     controlController.x().whileTrue(new RunIndexerShoot(m_indexer));
     controlController.a().whileTrue(new RunIndexerNormal(m_indexer));
+    controlController.b().whileTrue(new RunIndexerBackwards(m_indexer));
    
+    //raise climb arms
+    Trigger button9 = new JoystickButton(driveJoystick, 9);
+    button9.whileTrue(new RunClimbLeft(m_leftClimb, -ClimbConstants.CLIMB_SPEED_UP));
+
+    Trigger button10 = new JoystickButton(driveJoystick, 10);
+    button10.whileTrue(new RunClimbRight(m_rightClimb, -ClimbConstants.CLIMB_SPEED_UP));
+
+    //lower climb arms
     Trigger button11 = new JoystickButton(driveJoystick, 11);
-    button11.whileTrue(new RunClimbLeft(m_leftClimb));
+    button11.whileTrue(new RunClimbLeft(m_leftClimb, ClimbConstants.CLIMB_SPEED_DOWN));
 
     Trigger button12 = new JoystickButton(driveJoystick, 12);
-    button12.whileTrue(new RunClimbRight(m_rightClimb));
+    button12.whileTrue(new RunClimbRight(m_rightClimb, ClimbConstants.CLIMB_SPEED_DOWN));
 
-
+    controlController.pov(0).whileTrue(new AmpScore(m_shooterPitch));
+    
 
     //.whileTrue(new RunClimbLeft(m_leftClimb));
   }

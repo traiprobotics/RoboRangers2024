@@ -27,6 +27,8 @@ public class ShooterPitchSubsystem extends SubsystemBase {
     shooterPitch.setSmartCurrentLimit(40);
 
     shooterPitchEncoder = shooterPitch.getAbsoluteEncoder();
+    shooterPitchEncoder.setInverted(true);
+
     shooterPIDController = shooterPitch.getPIDController();
     shooterPIDController.setFeedbackDevice(shooterPitchEncoder);
 
@@ -42,16 +44,16 @@ public class ShooterPitchSubsystem extends SubsystemBase {
     shooterPitch.set(pitchSpeed);
   }
 
-  public void setPitch(double pitch) {
-    
+  public void setPitch(double rotations) {
+    shooterPIDController.setReference(rotations, CANSparkMax.ControlType.kPosition);
   }
 
   public void stopPitch() {
     shooterPitch.stopMotor();
   }
 
-  public void getEncoder(){
-    System.out.println(shooterPitchEncoder.getPosition());
+  public double getEncoder(){
+    return shooterPitchEncoder.getPosition();
   }
 
   @Override

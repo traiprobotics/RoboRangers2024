@@ -4,57 +4,37 @@
 
 package frc.robot.commands.turret;
 
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.turret.ShooterPitchSubsystem;
 
-public class driveShooterPitch extends Command {
-  /** Creates a new driveShooterPitch. */
+public class AmpScore extends Command {
+  /** Creates a new AmpScore. */
 
   public ShooterPitchSubsystem shooterPitchSubsystem;
-  private CommandXboxController controlController;
+  private double previousPitch;
 
-  private double speed;
-
-  public driveShooterPitch(ShooterPitchSubsystem pitch, CommandXboxController controller) {
-
-    this.shooterPitchSubsystem = pitch;
-    this.controlController = controller;
+  public AmpScore(ShooterPitchSubsystem shooterPitch) {
     // Use addRequirements() here to declare subsystem dependencies.
+    this.shooterPitchSubsystem = shooterPitch;
     addRequirements(shooterPitchSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    speed = 0;
-    
+    previousPitch = shooterPitchSubsystem.getEncoder();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (Math.abs(controlController.getRawAxis(3)) >= 0.02) {
-      speed = controlController.getRawAxis(3);
-    } else {
-      speed = 0;
-    }
-
-    if (speed >= 0) {
-      speed = speed / 2;
-    }
-    
-    shooterPitchSubsystem.drivePitch(speed / 5);
-    if (speed >= 0.2) {
-      System.out.println(speed);
-    }
+    shooterPitchSubsystem.setPitch(0.32);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    shooterPitchSubsystem.stopPitch();
+    shooterPitchSubsystem.setPitch(previousPitch);
   }
 
   // Returns true when the command should end.

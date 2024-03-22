@@ -11,10 +11,12 @@ import frc.robot.subsystems.RightClimbSubsystem;
 public class RunClimbRight extends Command {
 
   private RightClimbSubsystem rightClimbSubsystem;
+  private double climbSpeed;
 
   /** Creates a new RunClimbRight. */
-  public RunClimbRight(RightClimbSubsystem rightClimb) {
+  public RunClimbRight(RightClimbSubsystem rightClimb, double speed) {
     this.rightClimbSubsystem = rightClimb;
+    this.climbSpeed = speed;
     addRequirements(rightClimbSubsystem);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -26,7 +28,7 @@ public class RunClimbRight extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-     rightClimbSubsystem.driveClimb(ClimbConstants.CLIMB_SPEED);
+     rightClimbSubsystem.driveClimb(climbSpeed);
   }
 
   // Called once the command ends or is interrupted.

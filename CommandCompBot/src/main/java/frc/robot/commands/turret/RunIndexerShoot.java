@@ -28,7 +28,6 @@ public class RunIndexerShoot extends Command {
   @Override
   public void execute() {
     indexerSubsystem.runIndexer(TurretConstants.INDEXER_SHOOT_SPEED);
-    System.out.println("fuck");
   }
 
   // Called once the command ends or is interrupted.

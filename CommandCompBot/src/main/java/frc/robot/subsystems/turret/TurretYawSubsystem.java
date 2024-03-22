@@ -16,6 +16,7 @@ public class TurretYawSubsystem extends SubsystemBase {
   /** Creates a new TurretYawSubsystem. */
 
   private static CANSparkMax turretYaw = new CANSparkMax(7,MotorType.kBrushless);
+
   
   
   private static RelativeEncoder turretYawEncoder;
@@ -38,6 +39,10 @@ public class TurretYawSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+  }
+
+  public void setYaw(double counts) {
+
   }
 
 

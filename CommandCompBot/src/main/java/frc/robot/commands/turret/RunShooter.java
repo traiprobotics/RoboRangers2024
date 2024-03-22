@@ -30,8 +30,7 @@ public class RunShooter extends Command {
   @Override
   public void execute() {
     shooterSubsystem.shoot(TurretConstants.SHOOTER_LEFT_SPEED, TurretConstants.SHOOTER_RIGHT_SPEED);
-    
-    System.out.println("fire in the hole");
+  
   }
 
   // Called once the command ends or is interrupted.
