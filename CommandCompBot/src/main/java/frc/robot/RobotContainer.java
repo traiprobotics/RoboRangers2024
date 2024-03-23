@@ -6,6 +6,8 @@ package frc.robot;
 
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.ClimbConstants;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.PitchConstants;
@@ -19,6 +21,8 @@ import frc.robot.commands.RunClimbRight;
 import frc.robot.commands.RunFrontIntake;
 import frc.robot.commands.auto.BackIntakeAndIndex;
 import frc.robot.commands.auto.FrontIntakeAndIndex;
+import frc.robot.commands.auto.routines.ShootAndBackAuto;
+import frc.robot.commands.auto.routines.ShootBackAndIntakeAuto;
 import frc.robot.commands.turret.SetShooterPitchPreset;
 import frc.robot.commands.turret.SetTurretYaw;
 import frc.robot.commands.turret.GetShooterPitchEncoder;
@@ -35,6 +39,9 @@ import frc.robot.subsystems.turret.IndexerSubsystem;
 import frc.robot.subsystems.turret.ShooterPitchSubsystem;
 import frc.robot.subsystems.turret.ShooterSubsystem;
 import frc.robot.subsystems.turret.TurretYawSubsystem;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -58,18 +65,31 @@ public class RobotContainer {
 
   private Joystick driveJoystick = new Joystick(0);
   private CommandXboxController controlController = new CommandXboxController(1);
-  //Trigger rightBumper = controlController.rightBumper();
+  
+  //make auto dropdown variables
+  private final SendableChooser<String> m_autoChooser = new SendableChooser<>();
+  private final String auto1 = "1";
+  private final String auto2 = "2";
 
+  //initialize auto commands
 
-
-  // Replace with CommandPS4Controller, CommandJoystick, CommandXboxController if needed
+  private final ShootAndBackAuto shootAndBackAuto = new ShootAndBackAuto(m_shooter, m_drivetrain);
+  private final ShootBackAndIntakeAuto shootBackAndIntakeAuto = new ShootBackAndIntakeAuto(m_shooter, m_indexer, m_drivetrain, m_intake);
+  
   
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
     defaultCommands();
-    
+
+    //add auto options to dropdown
+    m_autoChooser.setDefaultOption("Shoot and Back Up", auto1);
+    m_autoChooser.addOption("Shoot, Back Up, and Intake Note", auto2);
+    //push options to dashboard
+    SmartDashboard.putData("Rat Sh*t Auto Selection", m_autoChooser);
+    SmartDashboard.putNumber("Auto Wait Time (seconds)", 0);
+    //(idea from overdrive lol, for if like multiple people have shoot autos)
   }
 
   private void defaultCommands() {
@@ -138,8 +158,22 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  // public Command getAutonomousCommand() {
-  //   // An example command will be run in autonomous
-  //   return Autos.exampleAuto(m_exampleSubsystem);
-  // }
+  public Command getAutonomousCommand() {
+    Command auto;
+
+    //get auto to run from sendableChooser dropdown
+    switch (m_autoChooser.getSelected()) {
+      default:
+      case auto1:
+        auto = shootAndBackAuto;
+        break;
+      case auto2:
+        auto = shootBackAndIntakeAuto;
+        break;
+    }
+    //set the auto command to a sequential command of waiting the time from the sendableChooser than the auto we want
+    //(not too sure on if this will work lmao)
+    auto =  new SequentialCommandGroup(new WaitCommand(SmartDashboard.getNumber("Auto Wait Time (Seconds)", 0)), auto);
+    return auto;
+  }
 }
