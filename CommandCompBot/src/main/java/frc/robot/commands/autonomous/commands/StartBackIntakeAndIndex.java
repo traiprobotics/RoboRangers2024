@@ -15,7 +15,7 @@ import frc.robot.subsystems.turret.IndexerSubsystem;
 import frc.robot.subsystems.turret.ShooterPitchSubsystem;
 import frc.robot.subsystems.turret.TurretYawSubsystem;
 
-public class BackIntakeAndIndex extends Command {
+public class StartBackIntakeAndIndex extends Command {
   /** Creates a new BackIntakeAndIndex. */
 
   private IntakeSubsystem intakeSubsystem;
@@ -23,7 +23,7 @@ public class BackIntakeAndIndex extends Command {
   private TurretYawSubsystem turretYawSubsystem;
   private ShooterPitchSubsystem shooterPitchSubsystem;
 
-  public BackIntakeAndIndex(IntakeSubsystem intake, IndexerSubsystem indexer, TurretYawSubsystem turretYaw, ShooterPitchSubsystem shooterPitch) {
+  public StartBackIntakeAndIndex(IntakeSubsystem intake, IndexerSubsystem indexer, TurretYawSubsystem turretYaw, ShooterPitchSubsystem shooterPitch) {
     this.intakeSubsystem = intake;
     this.indexerSubsystem = indexer;
     this.turretYawSubsystem = turretYaw;

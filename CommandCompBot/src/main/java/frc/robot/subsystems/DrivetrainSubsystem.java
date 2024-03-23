@@ -11,6 +11,8 @@ import frc.robot.Constants.CANConstants;
 import frc.robot.Constants.DrivetrainConstants;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 public class DrivetrainSubsystem extends SubsystemBase {
@@ -33,6 +35,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
   private double turnSpeedMult = DrivetrainConstants.DEFAULT_TURN_SPEED;
 
   DifferentialDrive differentialDrive = new DifferentialDrive(frontRightDrive, frontLeftDrive);
+
+  private static RelativeEncoder leftDriveEncoder;
+  private static SparkPIDController leftDrivePIDController;
 
 
   public DrivetrainSubsystem() {
@@ -97,4 +102,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
   public void simulationPeriodic() {
     // This method will be called once per scheduler run during simulation
   }
+
+public void driveAuto(double drive, double turn) {
+    
+}
 }

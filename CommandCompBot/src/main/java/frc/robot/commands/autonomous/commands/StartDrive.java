@@ -6,11 +6,12 @@ package frc.robot.commands.autonomous.commands;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.DrivetrainConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.DrivetrainSubsystem;
 
-public class DriveAuto extends Command {
+public class StartDrive extends Command {
   /** Creates a new DriveArcade. */
 
   private DrivetrainSubsystem drivetrainSubsystem;
@@ -23,7 +24,7 @@ public class DriveAuto extends Command {
   private double drive;
   private double turn;
 
-  public DriveAuto(DrivetrainSubsystem drive, double seconds, double turn) {
+  public StartDrive(DrivetrainSubsystem drive, double seconds, double turn) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.drivetrainSubsystem = drive;
     this.desiredTime = seconds;
@@ -40,10 +41,8 @@ public class DriveAuto extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //wheel diameter is 6 in
-    double desiredRotations = desiredDistance / DrivetrainConstants.WHEEL_DIAMETER;
-
-    drivetrainSubsystem.driveAuto(drive, turn);
+    
+    
   }
 
   // Called once the command ends or is interrupted.
