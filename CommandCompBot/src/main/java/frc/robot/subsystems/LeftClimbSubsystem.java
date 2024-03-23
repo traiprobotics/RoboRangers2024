@@ -17,7 +17,9 @@ public class LeftClimbSubsystem extends SubsystemBase {
   private static CANSparkMax leftClimb = new CANSparkMax(12,MotorType.kBrushed);
   private static Servo ratchetServo = new Servo(0);
 
-  public LeftClimbSubsystem() {}
+  public LeftClimbSubsystem() {
+    ratchetServo.set(ClimbConstants.LEFT_SERVO_LOCK);
+  }
 
   public void driveClimb(double speed) {
     if (speed < 0) {
@@ -25,11 +27,12 @@ public class LeftClimbSubsystem extends SubsystemBase {
     } else {
       ratchetServo.set(ClimbConstants.LEFT_SERVO_LOCK);
     }
-    leftClimb.set(speed);
+    //leftClimb.set(speed);
   }
 
   public void stopClimb() {
     leftClimb.stopMotor();
+    ratchetServo.set(ClimbConstants.LEFT_SERVO_LOCK);
   }
 
   @Override

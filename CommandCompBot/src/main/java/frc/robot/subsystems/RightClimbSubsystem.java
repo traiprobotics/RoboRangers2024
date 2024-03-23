@@ -17,15 +17,17 @@ public class RightClimbSubsystem extends SubsystemBase {
 
   private static Servo ratchetServo = new Servo(1);
 
-  public RightClimbSubsystem() {}
+  public RightClimbSubsystem() {
+    ratchetServo.set(ClimbConstants.RIGHT_SERVO_LOCK);
+  }
 
   public void driveClimb(double speed) {
     if (speed < 0) {
-      ratchetServo.set(ClimbConstants.LEFT_SERVO_UNLOCK);
+      ratchetServo.set(ClimbConstants.RIGHT_SERVO_UNLOCK);
     } else {
-      ratchetServo.set(ClimbConstants.LEFT_SERVO_LOCK);
+      ratchetServo.set(ClimbConstants.RIGHT_SERVO_LOCK);
     }
-    rightClimb.set(speed);
+    //rightClimb.set(speed);
   }
 
   @Override
@@ -35,5 +37,6 @@ public class RightClimbSubsystem extends SubsystemBase {
 
   public void stopClimb() {
     rightClimb.stopMotor();
+    ratchetServo.set(ClimbConstants.RIGHT_SERVO_LOCK);
   }
 }

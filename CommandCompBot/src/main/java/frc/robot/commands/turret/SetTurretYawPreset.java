@@ -2,50 +2,45 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.turret;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.IntakeConstants;
-import frc.robot.subsystems.IntakeSubsystem;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.Constants.TurretConstants;
+import frc.robot.Constants.YawConstants;
+import frc.robot.subsystems.turret.TurretYawSubsystem;
 
-public class RunBackIntake extends Command {
-  /** Creates a new RunIntake. */
+public class SetTurretYawPreset extends Command {
 
-  private IntakeSubsystem intakeSubsystem;
+  private TurretYawSubsystem turretYawSubsystem;
+  private double yaw;
 
-  double speed;
-
-  public RunBackIntake(IntakeSubsystem intake, double speed) {
-    this.intakeSubsystem = intake;
-    this.speed = speed;
-    addRequirements(intakeSubsystem);
+  /** Creates a new SetTurretYaw. */
+  public SetTurretYawPreset(TurretYawSubsystem turretYaw, double yaw) {
+    this.turretYawSubsystem = turretYaw;
+    this.yaw = yaw;
+    addRequirements(turretYawSubsystem);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    //System.out.println("init");
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intakeSubsystem.runBackIntake(speed);
-    //System.out.println("execute");
+    turretYawSubsystem.setYaw(yaw);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    intakeSubsystem.stopBackIntake();
-    //System.out.println("stop");
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    //System.out.println("isFinished");
     return false;
   }
 }

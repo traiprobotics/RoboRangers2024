@@ -15,8 +15,9 @@ public class RunFrontIntake extends Command {
 
   double speed;
 
-  public RunFrontIntake(IntakeSubsystem intake) {
+  public RunFrontIntake(IntakeSubsystem intake, double speed) {
     this.intakeSubsystem = intake;
+    this.speed = speed;
     addRequirements(intakeSubsystem);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -30,7 +31,7 @@ public class RunFrontIntake extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intakeSubsystem.runFrontIntake(-IntakeConstants.INTAKE_SPEED);
+    intakeSubsystem.runFrontIntake(-speed);
     //System.out.println("execute");
   }
 

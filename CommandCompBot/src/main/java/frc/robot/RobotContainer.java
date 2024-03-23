@@ -7,6 +7,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.Constants.ClimbConstants;
+import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.PitchConstants;
 import frc.robot.Constants.TurretConstants;
 
@@ -19,7 +20,9 @@ import frc.robot.commands.RunFrontIntake;
 import frc.robot.commands.auto.BackIntakeAndIndex;
 import frc.robot.commands.auto.FrontIntakeAndIndex;
 import frc.robot.commands.turret.SetShooterPitchPreset;
+import frc.robot.commands.turret.SetTurretYaw;
 import frc.robot.commands.turret.GetShooterPitchEncoder;
+import frc.robot.commands.turret.GetTurretYawEncoder;
 import frc.robot.commands.turret.RunIndexer;
 import frc.robot.commands.turret.RunShooter;
 import frc.robot.commands.turret.SetShooterPitch;
@@ -31,7 +34,7 @@ import frc.robot.subsystems.RightClimbSubsystem;
 import frc.robot.subsystems.turret.IndexerSubsystem;
 import frc.robot.subsystems.turret.ShooterPitchSubsystem;
 import frc.robot.subsystems.turret.ShooterSubsystem;
-
+import frc.robot.subsystems.turret.TurretYawSubsystem;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -47,6 +50,7 @@ public class RobotContainer {
   private static final DrivetrainSubsystem m_drivetrain = new DrivetrainSubsystem();
   private static final IntakeSubsystem m_intake = new IntakeSubsystem();
   private static final ShooterPitchSubsystem m_shooterPitch = new ShooterPitchSubsystem();
+  private static final TurretYawSubsystem m_turretYaw = new TurretYawSubsystem();
   private static final ShooterSubsystem m_shooter = new ShooterSubsystem();
   private static final IndexerSubsystem m_indexer = new IndexerSubsystem();
   private static final LeftClimbSubsystem m_leftClimb = new LeftClimbSubsystem();
@@ -70,8 +74,9 @@ public class RobotContainer {
 
   private void defaultCommands() {
     m_drivetrain.setDefaultCommand(new DriveArcade(m_drivetrain, driveJoystick));
-    m_shooterPitch.setDefaultCommand(new GetShooterPitchEncoder(m_shooterPitch));
+    //m_shooterPitch.setDefaultCommand(new GetShooterPitchEncoder(m_shooterPitch));
     m_shooterPitch.setDefaultCommand(new SetShooterPitch(m_shooterPitch, controlController));
+    m_turretYaw.setDefaultCommand(new SetTurretYaw(m_turretYaw, controlController));
   }
 
   /**
@@ -92,8 +97,14 @@ public class RobotContainer {
     // // cancelling on release.
     // m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
 
-    controlController.rightBumper().whileTrue(new RunFrontIntake(m_intake));
-    controlController.leftBumper().whileTrue(new RunBackIntake(m_intake));
+    //controlController.rightBumper().whileTrue(new RunFrontIntake(m_intake));
+    //controlController.leftBumper().whileTrue(new RunBackIntake(m_intake));
+
+    controlController.leftBumper().whileFalse((new BackIntakeAndIndex(m_intake, m_indexer, m_turretYaw, m_shooterPitch)));
+    controlController.rightBumper().whileFalse((new FrontIntakeAndIndex(m_intake, m_indexer, m_turretYaw, m_shooterPitch)));
+
+    controlController.button(7).whileTrue(new RunBackIntake(m_intake, IntakeConstants.OUTTAKE_SPEED));
+     controlController.button(8).whileTrue(new RunFrontIntake(m_intake, IntakeConstants.OUTTAKE_SPEED));
 
     controlController.y().whileTrue(new RunShooter(m_shooter));
 
@@ -116,10 +127,10 @@ public class RobotContainer {
     button12.whileTrue(new RunClimbRight(m_rightClimb, ClimbConstants.CLIMB_SPEED_DOWN));
 
     controlController.pov(0).whileTrue(new SetShooterPitchPreset(m_shooterPitch, PitchConstants.AMP_SCORE_PITCH));
-    
+
     //semi-auto commands
-    controlController.leftTrigger().whileTrue(new BackIntakeAndIndex(m_intake, m_indexer, null, m_shooterPitch));
-    controlController.rightTrigger().whileTrue(new FrontIntakeAndIndex(m_intake, m_indexer, null, m_shooterPitch));
+    //(new BackIntakeAndIndex(m_intake, m_indexer, m_turretYaw, m_shooterPitch));
+    //(new FrontIntakeAndIndex(m_intake, m_indexer, m_turretYaw, m_shooterPitch));
   }
 
   /**

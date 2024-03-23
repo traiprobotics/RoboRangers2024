@@ -17,7 +17,7 @@ public class SetShooterPitch extends Command {
   public ShooterPitchSubsystem shooterPitchSubsystem;
   private CommandXboxController controlController;
 
-  private double rotation = 0.55;
+  private double rotation = PitchConstants.PITCH_MIN;
 
   public SetShooterPitch(ShooterPitchSubsystem pitch, CommandXboxController controller) {
 
@@ -43,7 +43,7 @@ public class SetShooterPitch extends Command {
     //translates 0 to -1 (middle to top) on joystick to values within the min and max of the pitch range
     //this should basically just hold the position at PITCH_MAX unless the joystick is moved, and the pitch will change proportional to the joystick
 
-    System.out.println(rotation);
+    //System.out.println(rotation); ////////////////////////////////////////////////////////////////// PRINT
     shooterPitchSubsystem.setPitch(rotation);
     
   }
@@ -51,7 +51,7 @@ public class SetShooterPitch extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    shooterPitchSubsystem.stopPitch();
+    //shooterPitchSubsystem.stopPitch();
   }
 
   // Returns true when the command should end.

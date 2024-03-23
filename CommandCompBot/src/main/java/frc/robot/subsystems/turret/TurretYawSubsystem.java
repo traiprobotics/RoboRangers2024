@@ -8,10 +8,12 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
+import com.revrobotics.CANSparkBase.ControlType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CANConstants;
 import frc.robot.Constants.PIDConstants;
+import frc.robot.Constants.YawConstants;
 
 public class TurretYawSubsystem extends SubsystemBase {
   /** Creates a new TurretYawSubsystem. */
@@ -20,13 +22,16 @@ public class TurretYawSubsystem extends SubsystemBase {
   
   private static RelativeEncoder turretYawEncoder;
   private static SparkPIDController turretPIDController;
+
+  private double yaw;
   
 
   public TurretYawSubsystem() {
 
-    turretYawEncoder = turretYaw.getEncoder();
-    turretYawEncoder.setPositionConversionFactor(6);
-    
+    turretYawEncoder = turretYaw.getAlternateEncoder(8192);
+    turretYawEncoder.setInverted(true);
+    turretYawEncoder.setPosition(0);
+    turretYawEncoder.setPositionConversionFactor(1/6);
 
     turretPIDController = turretYaw.getPIDController();
     turretPIDController.setFeedbackDevice(turretYawEncoder);
@@ -36,6 +41,8 @@ public class TurretYawSubsystem extends SubsystemBase {
     turretPIDController.setD(PIDConstants.YAW_D);
     turretPIDController.setFF(PIDConstants.YAW_FF);
     turretPIDController.setOutputRange(PIDConstants.YAW_POWER_MIN, PIDConstants.YAW_POWER_MAX);
+
+    yaw = YawConstants.YAW_HOME;
     
   }
 
@@ -44,11 +51,11 @@ public class TurretYawSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  public void setYaw(double counts) {
-    //turretPIDController.setReference(counts,);
+  public void setYaw(double yaw) {
+    turretPIDController.setReference(yaw, ControlType.kPosition);
   }
 
-  public double getYaw() {
+  public double getTurretYaw() {
     return turretYawEncoder.getPosition();
   }
 

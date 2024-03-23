@@ -25,6 +25,7 @@ public class ShooterPitchSubsystem extends SubsystemBase {
   
   public ShooterPitchSubsystem() {
     shooterPitch.restoreFactoryDefaults();
+    shooterPitch.setInverted(true);
     shooterPitch.setSmartCurrentLimit(40);
 
     shooterPitchEncoder = shooterPitch.getAbsoluteEncoder();

@@ -49,6 +49,7 @@ public final class Constants {
 
   public static class IntakeConstants {
     public static final double INTAKE_SPEED = 1;
+    public static final double OUTTAKE_SPEED = -1;
   }
 
   public static class TurretConstants {
@@ -58,45 +59,50 @@ public final class Constants {
     public static final double SHOOTER_RIGHT_SPEED = 1;
     public static final double INDEXER_SHOOT_SPEED = 1;
     public static final double INDEXER_NORMAL_SPEED = 0.6;
+
   }
 
   public static class ClimbConstants {
-    public static final double LEFT_SERVO_UNLOCK = 0;
-    public static final double LEFT_SERVO_LOCK = 0;
-    public static final double RIGHT_SERVO_UNLOCK = 0;
-    public static final double RIGHT_SERVO_LOCK = 0;
+    public static final double LEFT_SERVO_UNLOCK = 0.2;
+    public static final double LEFT_SERVO_LOCK = 0.5;
+    public static final double RIGHT_SERVO_UNLOCK = 0.7;
+    public static final double RIGHT_SERVO_LOCK = 1;
     public static final double CLIMB_SPEED_DOWN = 1;
     public static final double CLIMB_SPEED_UP = 0.1;
   }
 
   public static class PIDConstants {
 
-    public static final double YAW_POWER_MAX = 0;
-    public static final double YAW_POWER_MIN = 0;
-    public static final double YAW_FF = 0;
-    public static final double YAW_D = 0;
+    public static final double YAW_POWER_MAX = 0.5;
+    public static final double YAW_POWER_MIN = -0.5;
+    public static final double YAW_P = 1.5;
     public static final double YAW_I = 0;
-    public static final double YAW_P = 0;
+    public static final double YAW_D = 0;
+    public static final double YAW_FF = 0;
 
-
-    public static final double PITCH_P = 1;
+    public static final double PITCH_P = 1.5;
     public static final double PITCH_I = 0;
     public static final double PITCH_D = 0;
     public static final double PITCH_FF = 0;
-    public static final double PITCH_POWER_MIN = -0.5;
+    public static final double PITCH_POWER_MIN = -0.1;
     //make the arm go slower when it lowers, as it is aided by gravity
     public static final double PITCH_POWER_MAX = 1;
 
   }
 
   public static class PitchConstants {
-    public static final double PITCH_MIN = 0.4;
+    public static final double PITCH_MIN = 0.42;
     public static final double PITCH_MAX = 0.7;
-    public static final double AMP_SCORE_PITCH = 0.65;
+    public static final double AMP_SCORE_PITCH = 0.68;
   }
 
   public static class YawConstants {
     public static final double BACK_INTAKE = 0;
-    public static final double FRONT_INTAKE = 0;
+    public static final double FRONT_INTAKE = 18;
+
+    public static final double YAW_HOME = 0;
+    public static final double YAW_MAX = 36;
+    public static final double YAW_MIN = -36;
+    public static final double YAW_CONTROL_REDUCTION = 20;
   }
 }
