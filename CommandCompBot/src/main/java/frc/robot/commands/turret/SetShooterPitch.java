@@ -38,7 +38,7 @@ public class SetShooterPitch extends Command {
   public void execute() {
 
     double joystickOutput = MathUtil.clamp(-controlController.getRawAxis(3), 0, 1);
-    double range = PitchConstants.PITCH_MAX - PitchConstants.PITCH_MIN;
+    double range = PitchConstants.PITCH_CONTROLLER_MAX - PitchConstants.PITCH_MIN;
     rotation = PitchConstants.PITCH_MIN + (joystickOutput * range);
     //translates 0 to -1 (middle to top) on joystick to values within the min and max of the pitch range
     //this should basically just hold the position at PITCH_MAX unless the joystick is moved, and the pitch will change proportional to the joystick

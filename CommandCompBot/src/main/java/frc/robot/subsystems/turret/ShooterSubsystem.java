@@ -16,7 +16,10 @@ public class ShooterSubsystem extends SubsystemBase {
   private static CANSparkMax shooterLeft = new CANSparkMax(CANConstants.SHOOTER_LEFT,MotorType.kBrushless);
   private static CANSparkMax shooterRight = new CANSparkMax(CANConstants.SHOOTER_RIGHT,MotorType.kBrushless);
 
-  public ShooterSubsystem() {}
+  public ShooterSubsystem() {
+    shooterLeft.setOpenLoopRampRate(0);
+    shooterLeft.setOpenLoopRampRate(0);
+  }
 
   public void shoot(double leftSpeed, double rightSpeed) {
     shooterLeft.set(leftSpeed);

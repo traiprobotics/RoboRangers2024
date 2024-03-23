@@ -43,9 +43,10 @@ public final class Constants {
 
   public static class DrivetrainConstants {
     public static final double RAMP_RATE = 0;
-    public static final double DEFAULT_DRIVE_SPEED = 0.6;
+    public static final double DEFAULT_DRIVE_SPEED = 0.8;
     public static final double DEFAULT_TURN_SPEED = 0.6;
     public static final double WHEEL_DIAMETER = 6 /*INCHES */;
+    public static final double SPRINT_DRIVE_SPEED = 1.0;
   }
 
   public static class IntakeConstants {
@@ -74,36 +75,39 @@ public final class Constants {
 
   public static class PIDConstants {
 
-    public static final double YAW_POWER_MAX = 0.5;
-    public static final double YAW_POWER_MIN = -0.5;
-    public static final double YAW_P = 1.5;
+    public static final double YAW_POWER_MAX = 0.4;
+    public static final double YAW_POWER_MIN = -0.4;
+    public static final double YAW_P = 0.7;
     public static final double YAW_I = 0;
     public static final double YAW_D = 0;
     public static final double YAW_FF = 0;
 
-    public static final double PITCH_P = 1.5;
-    public static final double PITCH_I = 0;
-    public static final double PITCH_D = 0;
-    public static final double PITCH_FF = 0;
-    public static final double PITCH_POWER_MIN = -0.1;
+    public static double PITCH_P = 1.5;
+    public static double PITCH_I = 0.001;
+    public static double PITCH_D = 0;
+    public static double PITCH_FF = 0;
+    public static double PITCH_POWER_MIN = -0.1;
     //make the arm go slower when it lowers, as it is aided by gravity
-    public static final double PITCH_POWER_MAX = 1;
+    public static double PITCH_POWER_MAX = 1;
 
   }
 
   public static class PitchConstants {
-    public static final double PITCH_MIN = 0.42;
-    public static final double PITCH_MAX = 0.7;
-    public static final double AMP_SCORE_PITCH = 0.68;
+    public static final double PITCH_MIN = 0.395;
+    public static final double PITCH_MAX = 0.68;
+    public static final double PITCH_CONTROLLER_MAX = 0.55;
+    public static final double AMP_SCORE_PITCH = 0.65;
   }
 
   public static class YawConstants {
     public static final double BACK_INTAKE = 0;
-    public static final double FRONT_INTAKE = 18;
+    public static final double FRONT_INTAKE = 3;
+    public static final double LEFT_SIDE = -1.5;
+    public static final double RIGHT_SIDE = 1.5;
 
     public static final double YAW_HOME = 0;
-    public static final double YAW_MAX = 36;
-    public static final double YAW_MIN = -36;
+    public static final double YAW_MAX = 6;
+    public static final double YAW_MIN = -6;
     public static final double YAW_CONTROL_REDUCTION = 20;
   }
 }

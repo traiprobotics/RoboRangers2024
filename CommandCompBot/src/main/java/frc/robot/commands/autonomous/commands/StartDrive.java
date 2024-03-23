@@ -21,27 +21,26 @@ public class StartDrive extends Command {
   //DISTANCE IS IN INCHES
   private double desiredTurn;
 
-  private double drive;
-  private double turn;
+  private double leftDrive;
+  private double rightDrive;
 
-  public StartDrive(DrivetrainSubsystem drive, double seconds, double turn) {
+  public StartDrive(DrivetrainSubsystem drive, double left, double right) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.drivetrainSubsystem = drive;
-    this.desiredTime = seconds;
-    this.desiredTurn = turn;
+    this.leftDrive = left;
+    this.rightDrive = right;
     addRequirements(drivetrainSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    
+    drivetrainSubsystem.driveAuto(leftDrive, rightDrive);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    
     
   }
 

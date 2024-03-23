@@ -26,17 +26,25 @@ public class SetTurretYaw extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    yaw = turretYawSubsystem.getTurretYaw();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    yaw += controlController.getRawAxis(0) / YawConstants.YAW_CONTROL_REDUCTION;
+    
+    double controllerInput = controlController.getRawAxis(0);
+    if (controllerInput >= 0.02 || controllerInput <= -0.02) {
+      yaw += controllerInput / YawConstants.YAW_CONTROL_REDUCTION;
+    }
     if (yaw > YawConstants.YAW_MAX || yaw < YawConstants.YAW_MIN) {
       yaw = YawConstants.YAW_HOME;
     }
+    //System.out.println(controllerInput);
+    
     turretYawSubsystem.setYaw(yaw);
-    System.out.println(yaw);
+    //System.out.println(yaw);
   }
 
   // Called once the command ends or is interrupted.

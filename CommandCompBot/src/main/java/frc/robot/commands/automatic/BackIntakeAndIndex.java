@@ -43,7 +43,7 @@ public class BackIntakeAndIndex extends Command {
     turretYawSubsystem.setYaw(YawConstants.BACK_INTAKE);
     shooterPitchSubsystem.setPitch(PitchConstants.PITCH_MIN);
 
-    intakeSubsystem.runBackIntake(IntakeConstants.INTAKE_SPEED);
+    intakeSubsystem.runBackIntake(-IntakeConstants.INTAKE_SPEED);
     indexerSubsystem.runIndexer(TurretConstants.INDEXER_NORMAL_SPEED);
   }
 
@@ -51,8 +51,8 @@ public class BackIntakeAndIndex extends Command {
   @Override
   public void end(boolean interrupted) {
     intakeSubsystem.stopBackIntake();
-    indexerSubsystem.runIndexer(TurretConstants.INDEXER_BACK_SPEED);
-    new WaitCommand(TurretConstants.INDEXER_BACK_TIME);
+    //indexerSubsystem.runIndexer(TurretConstants.INDEXER_BACK_SPEED);
+    //new WaitCommand(TurretConstants.INDEXER_BACK_TIME);
     indexerSubsystem.stopIndexer();
   }
 

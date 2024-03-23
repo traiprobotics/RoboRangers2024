@@ -23,11 +23,11 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void runFrontIntake(double speed) {
-    frontIntake.set(speed);
+    frontIntake.set(-speed);
   }
 
   public void runBackIntake(double speed) {
-    backIntake.set(speed);
+    backIntake.set(-speed);
   }
 
   public void stopFrontIntake() {

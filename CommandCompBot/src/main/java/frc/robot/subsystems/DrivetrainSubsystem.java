@@ -31,7 +31,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
   // PWMMotorController.addFollower(backLeftDrive);
 
-  private double driveSpeedMult = DrivetrainConstants.DEFAULT_DRIVE_SPEED; 
+
   private double turnSpeedMult = DrivetrainConstants.DEFAULT_TURN_SPEED;
 
   DifferentialDrive differentialDrive = new DifferentialDrive(frontRightDrive, frontLeftDrive);
@@ -62,11 +62,18 @@ public class DrivetrainSubsystem extends SubsystemBase {
   }
 
   public void arcadeDrive(double driveSpeed, double turnSpeed) {
-    differentialDrive.arcadeDrive(driveSpeed * driveSpeedMult, turnSpeed * turnSpeedMult);
+    differentialDrive.arcadeDrive(driveSpeed, turnSpeed * turnSpeedMult);
   }
 
   public void stop() {
     differentialDrive.stopMotor();
+  }
+
+  public void driveAuto(double leftDrive, double rightDrive) {
+    frontLeftDrive.set(leftDrive);
+    backLeftDrive.set(leftDrive);
+    frontRightDrive.set(rightDrive);
+    backRightDrive.set(rightDrive);
   }
 
   /**
@@ -103,7 +110,4 @@ public class DrivetrainSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run during simulation
   }
 
-public void driveAuto(double drive, double turn) {
-    
-}
 }

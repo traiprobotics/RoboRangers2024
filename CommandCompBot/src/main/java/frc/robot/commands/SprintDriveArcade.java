@@ -10,7 +10,7 @@ import frc.robot.Constants.DrivetrainConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.DrivetrainSubsystem;
 
-public class DriveArcade extends Command {
+public class SprintDriveArcade extends Command {
   /** Creates a new DriveArcade. */
 
   private DrivetrainSubsystem drivetrainSubsystem;
@@ -19,7 +19,7 @@ public class DriveArcade extends Command {
   double drive;
   double turn;
 
-  public DriveArcade(DrivetrainSubsystem drive, Joystick joy) {
+  public SprintDriveArcade(DrivetrainSubsystem drive, Joystick joy) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.drivetrainSubsystem = drive;
     this.driveJoystick = joy;
@@ -40,7 +40,7 @@ public class DriveArcade extends Command {
     drive = driveJoystick.getRawAxis(OperatorConstants.DRIVER_JOYSTICK_MOVE_AXIS) * slider;
     turn = driveJoystick.getRawAxis(OperatorConstants.DRIVER_JOYSTICK_ROTATE_AXIS);
 
-    drivetrainSubsystem.arcadeDrive(drive * DrivetrainConstants.DEFAULT_DRIVE_SPEED, turn);
+    drivetrainSubsystem.arcadeDrive(drive* DrivetrainConstants.SPRINT_DRIVE_SPEED, turn);
   }
 
   // Called once the command ends or is interrupted.

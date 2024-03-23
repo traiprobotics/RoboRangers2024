@@ -10,6 +10,7 @@ import com.revrobotics.CANSparkMax;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ClimbConstants;
+import frc.robot.commands.LeftClimbRatchet;
 
 public class LeftClimbSubsystem extends SubsystemBase {
   /** Creates a new LeftClimbSubsystem. */
@@ -27,12 +28,16 @@ public class LeftClimbSubsystem extends SubsystemBase {
     } else {
       ratchetServo.set(ClimbConstants.LEFT_SERVO_LOCK);
     }
-    //leftClimb.set(speed);
+    leftClimb.set(speed);
   }
 
   public void stopClimb() {
     leftClimb.stopMotor();
     ratchetServo.set(ClimbConstants.LEFT_SERVO_LOCK);
+  }
+
+  public void openRatchet() {
+    ratchetServo.set(ClimbConstants.LEFT_SERVO_UNLOCK);
   }
 
   @Override

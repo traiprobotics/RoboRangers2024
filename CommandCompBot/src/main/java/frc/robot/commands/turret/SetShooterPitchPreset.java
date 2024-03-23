@@ -5,6 +5,7 @@
 package frc.robot.commands.turret;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.PitchConstants;
 import frc.robot.subsystems.turret.ShooterPitchSubsystem;
 
 public class SetShooterPitchPreset extends Command {
@@ -36,7 +37,7 @@ public class SetShooterPitchPreset extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    shooterPitchSubsystem.setPitch(previousPitch);
+    shooterPitchSubsystem.setPitch(PitchConstants.PITCH_MIN);
   }
 
   // Returns true when the command should end.

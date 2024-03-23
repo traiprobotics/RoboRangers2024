@@ -51,8 +51,8 @@ public class FrontIntakeAndIndex extends Command {
   @Override
   public void end(boolean interrupted) {
     intakeSubsystem.stopFrontIntake();
-    indexerSubsystem.runIndexer(TurretConstants.INDEXER_BACK_SPEED);
-    new WaitCommand(TurretConstants.INDEXER_BACK_TIME);
+    //indexerSubsystem.runIndexer(TurretConstants.INDEXER_BACK_SPEED);
+    //new WaitCommand(TurretConstants.INDEXER_BACK_TIME);
     indexerSubsystem.stopIndexer();
   }
 

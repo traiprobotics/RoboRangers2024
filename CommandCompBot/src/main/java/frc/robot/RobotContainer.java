@@ -10,21 +10,27 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.ClimbConstants;
 import frc.robot.Constants.IntakeConstants;
+import frc.robot.Constants.PIDConstants;
 import frc.robot.Constants.PitchConstants;
 import frc.robot.Constants.TurretConstants;
-
+import frc.robot.Constants.YawConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.DriveArcade;
+import frc.robot.commands.LeftClimbRatchet;
+import frc.robot.commands.RightClimbRatchet;
 import frc.robot.commands.RunBackIntake;
 import frc.robot.commands.RunClimbLeft;
 import frc.robot.commands.RunClimbRight;
 import frc.robot.commands.RunFrontIntake;
+import frc.robot.commands.SprintDriveArcade;
 import frc.robot.commands.automatic.BackIntakeAndIndex;
 import frc.robot.commands.automatic.FrontIntakeAndIndex;
+import frc.robot.commands.autonomous.routines.AmpScoreAuto;
 import frc.robot.commands.autonomous.routines.ShootAndBackAuto;
 import frc.robot.commands.autonomous.routines.ShootBackAndIntakeAuto;
 import frc.robot.commands.turret.SetShooterPitchPreset;
 import frc.robot.commands.turret.SetTurretYaw;
+import frc.robot.commands.turret.SetTurretYawPreset;
 import frc.robot.commands.turret.GetShooterPitchEncoder;
 import frc.robot.commands.turret.GetTurretYawEncoder;
 import frc.robot.commands.turret.RunIndexer;
@@ -70,11 +76,13 @@ public class RobotContainer {
   private final SendableChooser<String> m_autoChooser = new SendableChooser<>();
   private final String auto1 = "1";
   private final String auto2 = "2";
+  private final String auto3 = "3";
 
   //initialize auto commands
 
-  private final ShootAndBackAuto shootAndBackAuto = new ShootAndBackAuto(m_shooter, m_drivetrain);
-  private final ShootBackAndIntakeAuto shootBackAndIntakeAuto = new ShootBackAndIntakeAuto(m_shooter, m_indexer, m_drivetrain, m_intake, m_turretYaw, m_shooterPitch);
+  private static final ShootAndBackAuto shootAndBackAuto = new ShootAndBackAuto(m_shooter, m_drivetrain);
+  private static final ShootBackAndIntakeAuto shootBackAndIntakeAuto = new ShootBackAndIntakeAuto(m_shooter, m_indexer, m_drivetrain, m_intake, m_turretYaw, m_shooterPitch);
+  private static final AmpScoreAuto ampScoreAuto = new AmpScoreAuto(m_shooter, m_indexer, m_drivetrain, m_turretYaw, m_shooterPitch);
   
   
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -86,10 +94,19 @@ public class RobotContainer {
     //add auto options to dropdown
     m_autoChooser.setDefaultOption("Shoot and Back Up", auto1);
     m_autoChooser.addOption("Shoot, Back Up, and Intake Note", auto2);
+    m_autoChooser.addOption("Amp Score", auto2);
     //push options to dashboard
     SmartDashboard.putData("Rat Sh*t Auto Selection", m_autoChooser);
     SmartDashboard.putNumber("Auto Wait Time (seconds)", 0);
     //(idea from overdrive lol, for if like multiple people have shoot autos)
+
+    // SmartDashboard.putNumber("Pitch P Gain", PIDConstants.PITCH_P);
+    // SmartDashboard.putNumber("Pitch I Gain", PIDConstants.PITCH_I);
+    // SmartDashboard.putNumber("Pitch D Gain", PIDConstants.PITCH_D);
+    // SmartDashboard.putNumber("Pitch FF", PIDConstants.PITCH_FF);
+    // SmartDashboard.putNumber("Pitch Min Output", PIDConstants.PITCH_POWER_MIN);
+    // SmartDashboard.putNumber("Pitch Max Output", PIDConstants.PITCH_POWER_MAX);
+
   }
 
   private void defaultCommands() {
@@ -120,18 +137,32 @@ public class RobotContainer {
     //controlController.rightBumper().whileTrue(new RunFrontIntake(m_intake));
     //controlController.leftBumper().whileTrue(new RunBackIntake(m_intake));
 
-    controlController.leftBumper().whileFalse((new BackIntakeAndIndex(m_intake, m_indexer, m_turretYaw, m_shooterPitch)));
-    controlController.rightBumper().whileFalse((new FrontIntakeAndIndex(m_intake, m_indexer, m_turretYaw, m_shooterPitch)));
+
+    controlController.leftBumper().whileTrue((new BackIntakeAndIndex(m_intake, m_indexer, m_turretYaw, m_shooterPitch)));
+    controlController.rightBumper().whileTrue((new FrontIntakeAndIndex(m_intake, m_indexer, m_turretYaw, m_shooterPitch)));
+
+    controlController.pov(270).whileTrue(new SetTurretYawPreset(m_turretYaw, YawConstants.RIGHT_SIDE));
+    controlController.pov(90).whileTrue(new SetTurretYawPreset(m_turretYaw, YawConstants.LEFT_SIDE));
 
     controlController.button(7).whileTrue(new RunBackIntake(m_intake, IntakeConstants.OUTTAKE_SPEED));
      controlController.button(8).whileTrue(new RunFrontIntake(m_intake, IntakeConstants.OUTTAKE_SPEED));
-
+ 
     controlController.y().whileTrue(new RunShooter(m_shooter));
 
     controlController.x().whileTrue(new RunIndexer(m_indexer, TurretConstants.INDEXER_SHOOT_SPEED));
     controlController.a().whileTrue(new RunIndexer(m_indexer, TurretConstants.INDEXER_NORMAL_SPEED));
     controlController.b().whileTrue(new RunIndexer(m_indexer, TurretConstants.INDEXER_BACK_SPEED));
    
+    Trigger sprint = new JoystickButton(driveJoystick, 1);
+    sprint.whileTrue(new SprintDriveArcade(m_drivetrain, driveJoystick));
+
+    //unlock climb servos
+    Trigger button7 = new JoystickButton(driveJoystick, 7);
+    button7.whileTrue(new LeftClimbRatchet(m_leftClimb));
+
+    Trigger button8 = new JoystickButton(driveJoystick, 8);
+    button8.whileTrue(new RightClimbRatchet(m_rightClimb));   
+
     //raise climb arms
     Trigger button9 = new JoystickButton(driveJoystick, 9);
     button9.whileTrue(new RunClimbLeft(m_leftClimb, -ClimbConstants.CLIMB_SPEED_UP));
@@ -170,10 +201,13 @@ public class RobotContainer {
       case auto2:
         auto = shootBackAndIntakeAuto;
         break;
+      case auto3:
+        auto = ampScoreAuto;
     }
     //set the auto command to a sequential command of waiting the time from the sendableChooser than the auto we want
     //(not too sure on if this will work lmao)
-    auto =  new SequentialCommandGroup(new WaitCommand(SmartDashboard.getNumber("Auto Wait Time (Seconds)", 0)), auto);
+    auto = null;
+    //new SequentialCommandGroup(new WaitCommand(SmartDashboard.getNumber("Auto Wait Time (Seconds)", 0)), auto);
     return auto;
   }
 }

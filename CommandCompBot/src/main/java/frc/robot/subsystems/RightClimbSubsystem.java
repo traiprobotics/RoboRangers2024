@@ -27,12 +27,16 @@ public class RightClimbSubsystem extends SubsystemBase {
     } else {
       ratchetServo.set(ClimbConstants.RIGHT_SERVO_LOCK);
     }
-    //rightClimb.set(speed);
+    rightClimb.set(speed);
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+  }
+
+  public void openRatchet() {
+    ratchetServo.set(ClimbConstants.RIGHT_SERVO_UNLOCK);
   }
 
   public void stopClimb() {

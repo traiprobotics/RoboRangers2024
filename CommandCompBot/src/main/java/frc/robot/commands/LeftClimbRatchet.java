@@ -4,48 +4,40 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.IntakeConstants;
-import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.LeftClimbSubsystem;
+import frc.robot.subsystems.RightClimbSubsystem;
 
-public class RunFrontIntake extends Command {
-  /** Creates a new RunIntake. */
+public class LeftClimbRatchet extends Command {
+  /** Creates a new OpenClimbRatchet. */
+  private LeftClimbSubsystem leftClimbSubsystem;
+  private Servo ratchet;
 
-  private IntakeSubsystem intakeSubsystem;
 
-  double speed;
-
-  public RunFrontIntake(IntakeSubsystem intake, double speed) {
-    this.intakeSubsystem = intake;
-    this.speed = speed;
-    addRequirements(intakeSubsystem);
+  public LeftClimbRatchet(LeftClimbSubsystem leftClimb) {
+    this.leftClimbSubsystem = leftClimb;
+    addRequirements(leftClimbSubsystem);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    //System.out.println("init");
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intakeSubsystem.runFrontIntake(speed);
-    //System.out.println("execute");
+    leftClimbSubsystem.openRatchet();
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    intakeSubsystem.stopFrontIntake();
-    //System.out.println("stop");
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    //System.out.println("isFinished");
     return false;
   }
 }
