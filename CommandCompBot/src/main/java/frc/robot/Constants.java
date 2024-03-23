@@ -45,6 +45,7 @@ public final class Constants {
     public static final double RAMP_RATE = 0;
     public static final double DEFAULT_DRIVE_SPEED = 0.6;
     public static final double DEFAULT_TURN_SPEED = 0.6;
+    public static final double WHEEL_DIAMETER = 6 /*INCHES */;
   }
 
   public static class IntakeConstants {

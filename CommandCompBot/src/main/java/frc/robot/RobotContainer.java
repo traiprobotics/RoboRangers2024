@@ -19,10 +19,10 @@ import frc.robot.commands.RunBackIntake;
 import frc.robot.commands.RunClimbLeft;
 import frc.robot.commands.RunClimbRight;
 import frc.robot.commands.RunFrontIntake;
-import frc.robot.commands.auto.BackIntakeAndIndex;
-import frc.robot.commands.auto.FrontIntakeAndIndex;
-import frc.robot.commands.auto.routines.ShootAndBackAuto;
-import frc.robot.commands.auto.routines.ShootBackAndIntakeAuto;
+import frc.robot.commands.automatic.BackIntakeAndIndex;
+import frc.robot.commands.automatic.FrontIntakeAndIndex;
+import frc.robot.commands.autonomous.routines.ShootAndBackAuto;
+import frc.robot.commands.autonomous.routines.ShootBackAndIntakeAuto;
 import frc.robot.commands.turret.SetShooterPitchPreset;
 import frc.robot.commands.turret.SetTurretYaw;
 import frc.robot.commands.turret.GetShooterPitchEncoder;
@@ -74,7 +74,7 @@ public class RobotContainer {
   //initialize auto commands
 
   private final ShootAndBackAuto shootAndBackAuto = new ShootAndBackAuto(m_shooter, m_drivetrain);
-  private final ShootBackAndIntakeAuto shootBackAndIntakeAuto = new ShootBackAndIntakeAuto(m_shooter, m_indexer, m_drivetrain, m_intake);
+  private final ShootBackAndIntakeAuto shootBackAndIntakeAuto = new ShootBackAndIntakeAuto(m_shooter, m_indexer, m_drivetrain, m_intake, m_turretYaw, m_shooterPitch);
   
   
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
