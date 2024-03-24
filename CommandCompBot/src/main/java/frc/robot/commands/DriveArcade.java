@@ -41,6 +41,9 @@ public class DriveArcade extends Command {
     turn = driveJoystick.getRawAxis(OperatorConstants.DRIVER_JOYSTICK_ROTATE_AXIS);
 
     drivetrainSubsystem.arcadeDrive(drive * DrivetrainConstants.DEFAULT_DRIVE_SPEED, turn);
+
+    System.out.println("Left: " + drivetrainSubsystem.getLeftEncoder());
+    System.out.println("Right: " + drivetrainSubsystem.getRightEncoder());
   }
 
   // Called once the command ends or is interrupted.

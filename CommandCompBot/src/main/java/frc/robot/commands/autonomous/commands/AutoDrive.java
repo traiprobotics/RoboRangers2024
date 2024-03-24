@@ -5,40 +5,40 @@
 package frc.robot.commands.autonomous.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.turret.IndexerSubsystem;
+import frc.robot.subsystems.DrivetrainSubsystem;
 
-public class StartIndexer extends Command {
-  /** Creates a new RunIndexer. */
+public class AutoDrive extends Command {
+  /** Creates a new AutoDrive. */
 
-  private IndexerSubsystem indexerSubsystem;
-  private double speed;
+  private DrivetrainSubsystem drivetrainSubsystem;
+  private double desiredDistance;
+  private double desiredAngle;
 
-  public StartIndexer(IndexerSubsystem indexer, double speed) {
-    this.indexerSubsystem = indexer;
-    this.speed = speed;
-    addRequirements(indexerSubsystem);
+  public AutoDrive(DrivetrainSubsystem drive, double distance, double angle) {
+    this.drivetrainSubsystem = drive;
+    this.desiredDistance = distance;
+    this.desiredAngle = angle;
+    addRequirements(drivetrainSubsystem);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    drivetrainSubsystem.autoDrive(desiredDistance, desiredAngle);
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    indexerSubsystem.runIndexer(speed);
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    indexerSubsystem.stopIndexer();
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return false;
   }
 }

@@ -46,7 +46,11 @@ public final class Constants {
     public static final double DEFAULT_DRIVE_SPEED = 0.8;
     public static final double DEFAULT_TURN_SPEED = 0.6;
     public static final double WHEEL_DIAMETER = 6 /*INCHES */;
+    public static double WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER * Math.PI;
     public static final double SPRINT_DRIVE_SPEED = 1.0;
+    public static final double WHEEL_DISTANCE_FROM_CENTER = 21.75/2;
+
+    public static final double ENCODER_PER_REVOLUTION = 8.4;
   }
 
   public static class IntakeConstants {
@@ -75,6 +79,15 @@ public final class Constants {
 
   public static class PIDConstants {
 
+    //drive
+    public static final double DRIVE_P = 1;
+    public static final double DRIVE_I = 0;
+    public static final double DRIVE_D = 0;
+    public static final double DRIVE_FF = 0;
+    public static final double DRIVE_POWER_MIN = -0.6;
+    public static final double DRIVE_POWER_MAX = 0.6;
+
+    //yaw
     public static final double YAW_POWER_MAX = 0.4;
     public static final double YAW_POWER_MIN = -0.4;
     public static final double YAW_P = 0.7;
@@ -82,6 +95,7 @@ public final class Constants {
     public static final double YAW_D = 0;
     public static final double YAW_FF = 0;
 
+    //pitch
     public static double PITCH_P = 1.5;
     public static double PITCH_I = 0.001;
     public static double PITCH_D = 0;
@@ -109,5 +123,8 @@ public final class Constants {
     public static final double YAW_MAX = 6;
     public static final double YAW_MIN = -6;
     public static final double YAW_CONTROL_REDUCTION = 20;
+
+    //auto
+    public static final double RED_AMP_AUTO = 0.75;
   }
 }

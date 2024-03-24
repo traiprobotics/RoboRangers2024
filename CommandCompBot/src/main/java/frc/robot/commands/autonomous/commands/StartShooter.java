@@ -21,12 +21,13 @@ public class StartShooter extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    shooterSubsystem.shoot(TurretConstants.SHOOTER_LEFT_SPEED, TurretConstants.SHOOTER_RIGHT_SPEED);
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooterSubsystem.shoot(TurretConstants.SHOOTER_LEFT_SPEED, TurretConstants.SHOOTER_RIGHT_SPEED);
   
   }
 
@@ -38,6 +39,6 @@ public class StartShooter extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

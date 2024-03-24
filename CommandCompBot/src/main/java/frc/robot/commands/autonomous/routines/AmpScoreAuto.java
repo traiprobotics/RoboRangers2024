@@ -64,19 +64,7 @@ public class AmpScoreAuto extends Command {
       new RunIndexer(indexerSubsystem, TurretConstants.INDEXER_SHOOT_SPEED),
       new WaitCommand(1),
       new StopEverything(intakeSubsystem, shooterSubsystem, indexerSubsystem, drivetrainSubsystem)
-      
 
-      // new StartShooter(shooterSubsystem),
-      // new WaitCommand(0.5),
-      // new StartIndexer(indexerSubsystem, TurretConstants.INDEXER_SHOOT_SPEED),
-      // new StopEverything(intakeSubsystem, shooterSubsystem, indexerSubsystem, drivetrainSubsystem),
-     
-     
-      // new StartBackIntakeAndIndex(intakeSubsystem, indexerSubsystem, turretYawSubsystem, shooterPitchSubsystem),
-      // new StartDrive(drivetrainSubsystem, -0.1, -0.1),
-      // new WaitCommand(1),
-      // new StopEverything(intakeSubsystem, shooterSubsystem, indexerSubsystem, drivetrainSubsystem)
-      
     );
    
     

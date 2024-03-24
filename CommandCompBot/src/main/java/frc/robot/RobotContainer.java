@@ -25,6 +25,11 @@ import frc.robot.commands.RunFrontIntake;
 import frc.robot.commands.SprintDriveArcade;
 import frc.robot.commands.automatic.BackIntakeAndIndex;
 import frc.robot.commands.automatic.FrontIntakeAndIndex;
+import frc.robot.commands.autonomous.commands.AutoDrive;
+import frc.robot.commands.autonomous.commands.StartDrive;
+import frc.robot.commands.autonomous.commands.StartShooter;
+import frc.robot.commands.autonomous.commands.StopDrive;
+import frc.robot.commands.autonomous.commands.StopEverything;
 import frc.robot.commands.autonomous.routines.AmpScoreAuto;
 import frc.robot.commands.autonomous.routines.ShootAndBackAuto;
 import frc.robot.commands.autonomous.routines.ShootBackAndIntakeAuto;
@@ -46,6 +51,7 @@ import frc.robot.subsystems.turret.ShooterPitchSubsystem;
 import frc.robot.subsystems.turret.ShooterSubsystem;
 import frc.robot.subsystems.turret.TurretYawSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -206,7 +212,27 @@ public class RobotContainer {
     }
     //set the auto command to a sequential command of waiting the time from the sendableChooser than the auto we want
     //(not too sure on if this will work lmao)
-    auto = null;
+    auto = new SequentialCommandGroup(
+      new AutoDrive(m_drivetrain, 300, 0)
+    );
+    
+    // new SequentialCommandGroup(
+    //   new StartDrive(m_drivetrain, 0.4, 0.4),
+    //   new SetTurretYawPreset(m_turretYaw, YawConstants.RED_AMP_AUTO),
+    //   new SetShooterPitchPreset(m_shooterPitch, PitchConstants.AMP_SCORE_PITCH),
+    //   new WaitCommand(1),
+    //   new StopDrive(m_drivetrain),
+    //   new RunShooter(m_shooter),
+    //   new WaitCommand(1),
+    //   new RunIndexer(m_indexer, TurretConstants.INDEXER_SHOOT_SPEED),
+    //   new WaitCommand(1),
+    //   new StopEverything(m_intake, m_shooter, m_indexer, m_drivetrain)
+      
+    // );
+    //new AmpScoreAuto(m_shooter, m_indexer, m_drivetrain, m_turretYaw, m_shooterPitch);
+
+    //auto = new SequentialCommandGroup(new StartShooter(m_shooter), new WaitCommand(2), new StopEverything(m_intake, m_shooter, m_indexer, m_drivetrain));
+
     //new SequentialCommandGroup(new WaitCommand(SmartDashboard.getNumber("Auto Wait Time (Seconds)", 0)), auto);
     return auto;
   }

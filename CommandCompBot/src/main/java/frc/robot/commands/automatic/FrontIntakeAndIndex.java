@@ -42,8 +42,9 @@ public class FrontIntakeAndIndex extends Command {
   public void execute() {
     turretYawSubsystem.setYaw(YawConstants.FRONT_INTAKE);
     shooterPitchSubsystem.setPitch(PitchConstants.PITCH_MIN);
-
-    intakeSubsystem.runFrontIntake(IntakeConstants.INTAKE_SPEED);
+    if (turretYawSubsystem.getTurretYaw() < (YawConstants.FRONT_INTAKE + 0.5) && turretYawSubsystem.getTurretYaw() > (YawConstants.FRONT_INTAKE - 0.5)) { 
+      intakeSubsystem.runFrontIntake(IntakeConstants.INTAKE_SPEED);
+    }
     indexerSubsystem.runIndexer(TurretConstants.INDEXER_NORMAL_SPEED);
   }
 

@@ -42,8 +42,11 @@ public class BackIntakeAndIndex extends Command {
   public void execute() {
     turretYawSubsystem.setYaw(YawConstants.BACK_INTAKE);
     shooterPitchSubsystem.setPitch(PitchConstants.PITCH_MIN);
+    if (turretYawSubsystem.getTurretYaw() < (YawConstants.BACK_INTAKE + 0.5) && turretYawSubsystem.getTurretYaw() > (YawConstants.BACK_INTAKE - 0.5)) { 
+      intakeSubsystem.runBackIntake(-IntakeConstants.INTAKE_SPEED);
+    }
 
-    intakeSubsystem.runBackIntake(-IntakeConstants.INTAKE_SPEED);
+    //intakeSubsystem.runBackIntake(-IntakeConstants.INTAKE_SPEED);
     indexerSubsystem.runIndexer(TurretConstants.INDEXER_NORMAL_SPEED);
   }
 

@@ -61,6 +61,6 @@ public class StopEverything extends Command {
   @Override
   public boolean isFinished() {
     //System.out.println("isFinished");
-    return false;
+    return true;
   }
 }
