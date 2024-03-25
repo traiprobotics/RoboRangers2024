@@ -122,8 +122,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
     double rightDesiredRotations = rightExtraDistance / DrivetrainConstants.WHEEL_CIRCUMFERENCE;
     double desiredRotations = desiredDistance / DrivetrainConstants.WHEEL_CIRCUMFERENCE;
 
-    rightDrivePIDController.setReference(desiredRotations + rightExtraDistance, ControlType.kPosition);
-    leftDrivePIDController.setReference(desiredRotations + leftExtraDistance, ControlType.kPosition);
+    rightDrivePIDController.setReference(desiredRotations + rightDesiredRotations, ControlType.kPosition);
+    leftDrivePIDController.setReference(desiredRotations + leftDesiredRotations, ControlType.kPosition);
   }
 
   public double getLeftEncoder() {

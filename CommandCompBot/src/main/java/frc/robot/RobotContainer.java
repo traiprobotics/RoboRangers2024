@@ -5,6 +5,8 @@
 package frc.robot;
 
 
+import org.photonvision.PhotonCamera;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -24,6 +26,7 @@ import frc.robot.commands.RunClimbRight;
 import frc.robot.commands.RunFrontIntake;
 import frc.robot.commands.SprintDriveArcade;
 import frc.robot.commands.automatic.BackIntakeAndIndex;
+import frc.robot.commands.automatic.CameraTurretYaw;
 import frc.robot.commands.automatic.FrontIntakeAndIndex;
 import frc.robot.commands.autonomous.commands.AutoDrive;
 import frc.robot.commands.autonomous.commands.StartDrive;
@@ -47,6 +50,7 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LeftClimbSubsystem;
 import frc.robot.subsystems.RightClimbSubsystem;
 import frc.robot.subsystems.turret.IndexerSubsystem;
+import frc.robot.subsystems.turret.PhotonLimelightSubsystem;
 import frc.robot.subsystems.turret.ShooterPitchSubsystem;
 import frc.robot.subsystems.turret.ShooterSubsystem;
 import frc.robot.subsystems.turret.TurretYawSubsystem;
@@ -74,6 +78,7 @@ public class RobotContainer {
   private static final IndexerSubsystem m_indexer = new IndexerSubsystem();
   private static final LeftClimbSubsystem m_leftClimb = new LeftClimbSubsystem();
   private static final RightClimbSubsystem m_rightClimb = new RightClimbSubsystem();
+  private static final PhotonLimelightSubsystem m_limelight = new PhotonLimelightSubsystem();
 
   private Joystick driveJoystick = new Joystick(0);
   private CommandXboxController controlController = new CommandXboxController(1);
@@ -150,9 +155,12 @@ public class RobotContainer {
     controlController.pov(270).whileTrue(new SetTurretYawPreset(m_turretYaw, YawConstants.RIGHT_SIDE));
     controlController.pov(90).whileTrue(new SetTurretYawPreset(m_turretYaw, YawConstants.LEFT_SIDE));
 
-    controlController.button(7).whileTrue(new RunBackIntake(m_intake, IntakeConstants.OUTTAKE_SPEED));
-     controlController.button(8).whileTrue(new RunFrontIntake(m_intake, IntakeConstants.OUTTAKE_SPEED));
+    //controlController.button(7).whileTrue(new RunBackIntake(m_intake, IntakeConstants.OUTTAKE_SPEED));
+    //controlController.button(8).whileTrue(new RunFrontIntake(m_intake, IntakeConstants.OUTTAKE_SPEED));
  
+    controlController.button(7).whileTrue(new CameraTurretYaw(m_turretYaw, m_limelight, 3));
+    controlController.button(8).whileTrue(new AutoDrive(m_drivetrain, 30, 0));
+
     controlController.y().whileTrue(new RunShooter(m_shooter));
 
     controlController.x().whileTrue(new RunIndexer(m_indexer, TurretConstants.INDEXER_SHOOT_SPEED));
