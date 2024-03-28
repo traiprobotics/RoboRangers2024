@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ClimbConstants;
@@ -18,17 +19,24 @@ public class LeftClimbSubsystem extends SubsystemBase {
   private static CANSparkMax leftClimb = new CANSparkMax(12,MotorType.kBrushed);
   private static Servo ratchetServo = new Servo(0);
 
+  private static DigitalInput leftLimit = new DigitalInput(1);
+
   public LeftClimbSubsystem() {
     ratchetServo.set(ClimbConstants.LEFT_SERVO_LOCK);
   }
 
   public void driveClimb(double speed) {
+    System.out.println(leftLimit.get());
     if (speed < 0) {
       ratchetServo.set(ClimbConstants.LEFT_SERVO_UNLOCK);
     } else {
       ratchetServo.set(ClimbConstants.LEFT_SERVO_LOCK);
     }
-    leftClimb.set(speed);
+    if (leftLimit.get() == true && speed > 0) {
+      leftClimb.stopMotor();
+    } else {
+      leftClimb.set(speed);
+    }
   }
 
   public void stopClimb() {

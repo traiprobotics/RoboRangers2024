@@ -9,14 +9,20 @@ import frc.robot.Constants.TurretConstants;
 import frc.robot.subsystems.turret.IndexerSubsystem;
 import frc.robot.subsystems.turret.ShooterSubsystem;
 
-public class RunShooter extends Command {
-  /** Creates a new RunShooter. */
+public class RunIndexerAndShooter extends Command {
+  /** Creates a new RunIndexer. */
 
+  private IndexerSubsystem indexerSubsystem;
   private ShooterSubsystem shooterSubsystem;
+  private double indexSpeed;
+  private double shootSpeed;
 
-  public RunShooter(ShooterSubsystem shooter) {
+  public RunIndexerAndShooter(IndexerSubsystem indexer, ShooterSubsystem shooter, double indexSpeed, double shootSpeed) {
+    this.indexerSubsystem = indexer;
     this.shooterSubsystem = shooter;
-    addRequirements(shooterSubsystem);
+    this.indexSpeed = indexSpeed;
+    this.shootSpeed = shootSpeed;
+    addRequirements(indexerSubsystem, shooterSubsystem);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -27,18 +33,17 @@ public class RunShooter extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    TurretConstants.canIndex = false;
-    shooterSubsystem.shoot(TurretConstants.SHOOTER_LEFT_SPEED, TurretConstants.SHOOTER_RIGHT_SPEED);
-    if (shooterSubsystem.getVelocity() > TurretConstants.SHOOTER_LEFT_SPEED - 500) {
-      TurretConstants.canIndex = true;
+    if (TurretConstants.canIndex) {
+      indexerSubsystem.runIndexer(indexSpeed);
+      //shooterSubsystem.shoot(shootSpeed, shootSpeed);
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    shooterSubsystem.stopShooter();
-    TurretConstants.canIndex = true;
+    indexerSubsystem.stopIndexer();
+
   }
 
   // Returns true when the command should end.

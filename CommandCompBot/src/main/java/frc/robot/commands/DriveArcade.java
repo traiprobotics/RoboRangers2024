@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.DrivetrainConstants;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.Constants.PitchConstants;
+import frc.robot.Constants.TurretConstants;
 import frc.robot.subsystems.DrivetrainSubsystem;
 
 public class DriveArcade extends Command {
@@ -42,8 +44,8 @@ public class DriveArcade extends Command {
 
     drivetrainSubsystem.arcadeDrive(drive * DrivetrainConstants.DEFAULT_DRIVE_SPEED, turn);
 
-    System.out.println("Left: " + drivetrainSubsystem.getLeftEncoder());
-    System.out.println("Right: " + drivetrainSubsystem.getRightEncoder());
+    //System.out.println("Left: " + drivetrainSubsystem.getLeftEncoder());
+    //System.out.println("Right: " + drivetrainSubsystem.getRightEncoder());
   }
 
   // Called once the command ends or is interrupted.

@@ -5,6 +5,7 @@
 package frc.robot.commands.turret;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.TurretConstants;
 import frc.robot.subsystems.turret.IndexerSubsystem;
 
 public class RunIndexer extends Command {
@@ -27,7 +28,9 @@ public class RunIndexer extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    indexerSubsystem.runIndexer(speed);
+    if (TurretConstants.canIndex) {
+      indexerSubsystem.runIndexer(speed);
+    }
   }
 
   // Called once the command ends or is interrupted.

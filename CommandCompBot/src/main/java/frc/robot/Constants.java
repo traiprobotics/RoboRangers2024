@@ -61,10 +61,13 @@ public final class Constants {
   public static class TurretConstants {
     public static final double INDEXER_BACK_TIME = 0;
     public static final double INDEXER_BACK_SPEED = -0.3;
-    public static final double SHOOTER_LEFT_SPEED = 1;
-    public static final double SHOOTER_RIGHT_SPEED = 1;
+    public static final double SHOOTER_LEFT_SPEED = 4000;
+    public static final double SHOOTER_RIGHT_SPEED = 4000;
     public static final double INDEXER_SHOOT_SPEED = 1;
     public static final double INDEXER_NORMAL_SPEED = 0.6;
+    public static final double SHOOTER_BACK_SPEED = -300;
+    public static boolean canIndex = true;
+
 
   }
 
@@ -95,6 +98,14 @@ public final class Constants {
     public static final double YAW_D = 0;
     public static final double YAW_FF = 0;
 
+    //shooters
+    public static final double SHOOT_P = 1;
+    public static final double SHOOT_I = 0;
+    public static final double SHOOT_D = 0.3;
+    public static final double SHOOT_FF = 0;
+    public static final double SHOOT_POWER_MIN = -1;
+    public static final double SHOOT_POWER_MAX = 1;
+
     //pitch
     public static double PITCH_P = 1.5;
     public static double PITCH_I = 0.001;
@@ -107,10 +118,19 @@ public final class Constants {
   }
 
   public static class PitchConstants {
-    public static final double PITCH_MIN = 0.395;
+    public static final double PITCH_MIN = 0.39;
     public static final double PITCH_MAX = 0.68;
     public static final double PITCH_CONTROLLER_MAX = 0.55;
     public static final double AMP_SCORE_PITCH = 0.65;
+
+    public static final double MAX_RANGE = 105;
+    public static final double MIN_RANGE = 0;
+
+    public static final double MAX_DISTANCE_SHOOTER_ANGLE = 0.5;
+    public static final double MIN_DISTANCE_SHOOTER_ANGLE = 0.39;
+    public static final double MAX_DISTANCE_TARGET_ANGLE = -6;
+    public static final double MIN_DISTANCE_TARGET_ANGLE = 18;
+
   }
 
   public static class YawConstants {

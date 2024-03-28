@@ -26,6 +26,7 @@ import frc.robot.commands.RunClimbRight;
 import frc.robot.commands.RunFrontIntake;
 import frc.robot.commands.SprintDriveArcade;
 import frc.robot.commands.automatic.BackIntakeAndIndex;
+import frc.robot.commands.automatic.CameraShooterPitch;
 import frc.robot.commands.automatic.CameraTurretYaw;
 import frc.robot.commands.automatic.FrontIntakeAndIndex;
 import frc.robot.commands.autonomous.commands.AutoDrive;
@@ -42,6 +43,7 @@ import frc.robot.commands.turret.SetTurretYawPreset;
 import frc.robot.commands.turret.GetShooterPitchEncoder;
 import frc.robot.commands.turret.GetTurretYawEncoder;
 import frc.robot.commands.turret.RunIndexer;
+import frc.robot.commands.turret.RunIndexerAndShooter;
 import frc.robot.commands.turret.RunShooter;
 import frc.robot.commands.turret.SetShooterPitch;
 
@@ -56,6 +58,7 @@ import frc.robot.subsystems.turret.ShooterSubsystem;
 import frc.robot.subsystems.turret.TurretYawSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -158,35 +161,40 @@ public class RobotContainer {
     //controlController.button(7).whileTrue(new RunBackIntake(m_intake, IntakeConstants.OUTTAKE_SPEED));
     //controlController.button(8).whileTrue(new RunFrontIntake(m_intake, IntakeConstants.OUTTAKE_SPEED));
  
-    controlController.button(7).whileTrue(new CameraTurretYaw(m_turretYaw, m_limelight, 3));
+    controlController.button(7).whileTrue(
+      new ParallelDeadlineGroup(
+        new CameraTurretYaw(m_turretYaw, m_limelight, 3), 
+        new CameraShooterPitch(m_shooterPitch, m_limelight, 3)
+      )
+    );
     controlController.button(8).whileTrue(new AutoDrive(m_drivetrain, 30, 0));
 
     controlController.y().whileTrue(new RunShooter(m_shooter));
 
     controlController.x().whileTrue(new RunIndexer(m_indexer, TurretConstants.INDEXER_SHOOT_SPEED));
     controlController.a().whileTrue(new RunIndexer(m_indexer, TurretConstants.INDEXER_NORMAL_SPEED));
-    controlController.b().whileTrue(new RunIndexer(m_indexer, TurretConstants.INDEXER_BACK_SPEED));
+    controlController.b().whileTrue(new RunIndexerAndShooter(m_indexer, m_shooter, TurretConstants.INDEXER_BACK_SPEED, TurretConstants.SHOOTER_BACK_SPEED));
    
     Trigger sprint = new JoystickButton(driveJoystick, 1);
     sprint.whileTrue(new SprintDriveArcade(m_drivetrain, driveJoystick));
 
-    //unlock climb servos
-    Trigger button7 = new JoystickButton(driveJoystick, 7);
-    button7.whileTrue(new LeftClimbRatchet(m_leftClimb));
+    // //unlock climb servos
+    // Trigger button7 = new JoystickButton(driveJoystick, 7);
+    // button7.whileTrue(new LeftClimbRatchet(m_leftClimb));
 
-    Trigger button8 = new JoystickButton(driveJoystick, 8);
-    button8.whileTrue(new RightClimbRatchet(m_rightClimb));   
+    // Trigger button8 = new JoystickButton(driveJoystick, 8);
+    // button8.whileTrue(new RightClimbRatchet(m_rightClimb));   
 
-    //raise climb arms
-    Trigger button9 = new JoystickButton(driveJoystick, 9);
-    button9.whileTrue(new RunClimbLeft(m_leftClimb, -ClimbConstants.CLIMB_SPEED_UP));
+    // //raise climb arms
+    // Trigger button9 = new JoystickButton(driveJoystick, 9);
+    // button9.whileTrue(new RunClimbLeft(m_leftClimb, -ClimbConstants.CLIMB_SPEED_UP));
 
-    Trigger button10 = new JoystickButton(driveJoystick, 10);
-    button10.whileTrue(new RunClimbRight(m_rightClimb, -ClimbConstants.CLIMB_SPEED_UP));
+    // Trigger button10 = new JoystickButton(driveJoystick, 10);
+    // button10.whileTrue(new RunClimbRight(m_rightClimb, -ClimbConstants.CLIMB_SPEED_UP));
 
-    //lower climb arms
-    Trigger button11 = new JoystickButton(driveJoystick, 11);
-    button11.whileTrue(new RunClimbLeft(m_leftClimb, ClimbConstants.CLIMB_SPEED_DOWN));
+    // //lower climb arms
+    // Trigger button11 = new JoystickButton(driveJoystick, 11);
+    // button11.whileTrue(new RunClimbLeft(m_leftClimb, ClimbConstants.CLIMB_SPEED_DOWN));
 
     Trigger button12 = new JoystickButton(driveJoystick, 12);
     button12.whileTrue(new RunClimbRight(m_rightClimb, ClimbConstants.CLIMB_SPEED_DOWN));

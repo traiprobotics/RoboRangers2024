@@ -9,11 +9,13 @@ import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkPIDController;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CANConstants;
 import frc.robot.Constants.PIDConstants;
+import frc.robot.Constants.PitchConstants;
 
 public class ShooterPitchSubsystem extends SubsystemBase {
   /** Creates a new ShooterPitchSubsystem. */
@@ -49,7 +51,8 @@ public class ShooterPitchSubsystem extends SubsystemBase {
   // }
 
   public void setPitch(double rotations) {
-    shooterPIDController.setReference(rotations, CANSparkMax.ControlType.kPosition);
+    double safeRotations = MathUtil.clamp(rotations, PitchConstants.PITCH_MIN, PitchConstants.PITCH_MAX);
+    shooterPIDController.setReference(safeRotations, CANSparkMax.ControlType.kPosition);
     //updateDashboard();
   }
 
