@@ -56,10 +56,9 @@ public class ShooterSubsystem extends SubsystemBase {
   
   }
 
-  public void shoot(double leftSpeed, double rightSpeed) {
-    leftPIDController.setReference(leftSpeed, ControlType.kVelocity);
-    rightPIDController.setReference(rightSpeed, ControlType.kVelocity);
-    System.out.println(leftShooterEncoder.getVelocity());
+  public void shoot(double topSpeed, double bottomSpeed) {
+    leftPIDController.setReference(topSpeed, ControlType.kVelocity);
+    rightPIDController.setReference(bottomSpeed, ControlType.kVelocity);
   }
 
   public void stopShooter() {
@@ -75,7 +74,11 @@ public class ShooterSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  public double getVelocity() {
+  public double getBottomVelocity() {
+    return rightShooterEncoder.getVelocity();
+  }
+
+    public double getTopVelocity() {
     return leftShooterEncoder.getVelocity();
   }
 }

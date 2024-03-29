@@ -112,6 +112,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
     
   // }
 
+  public double leftAutoReference = 0;
+  public double rightAutoReference = 0;
+
   public void autoDrive(double desiredDistance, double angle) {
     //get distances to reach angle (from garbage trig)
     double leftExtraDistance = DrivetrainConstants.WHEEL_DIAMETER * Math.sin(angle);

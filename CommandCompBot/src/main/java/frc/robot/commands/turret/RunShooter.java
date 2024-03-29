@@ -28,10 +28,11 @@ public class RunShooter extends Command {
   @Override
   public void execute() {
     TurretConstants.canIndex = false;
-    shooterSubsystem.shoot(TurretConstants.SHOOTER_LEFT_SPEED, TurretConstants.SHOOTER_RIGHT_SPEED);
-    if (shooterSubsystem.getVelocity() > TurretConstants.SHOOTER_LEFT_SPEED - 500) {
+    shooterSubsystem.shoot(TurretConstants.SHOOTER_TOP_SPEED, TurretConstants.SHOOTER_BOTTOM_SPEED);
+    if (shooterSubsystem.getTopVelocity() > TurretConstants.SHOOTER_TOP_SPEED - 500) {
       TurretConstants.canIndex = true;
     }
+    System.out.println(shooterSubsystem.getBottomVelocity());
   }
 
   // Called once the command ends or is interrupted.

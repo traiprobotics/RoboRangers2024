@@ -50,7 +50,7 @@ public class CameraShooterPitch extends Command {
      (1 - scaledTagPitch) * (PitchConstants.MAX_DISTANCE_SHOOTER_ANGLE - PitchConstants.MIN_DISTANCE_SHOOTER_ANGLE)
     ;
     //System.out.println(tagPitchDecimal);
-    System.out.println(photonLimelightSubsystem.getTagPitch(id));
+    //System.out.println(photonLimelightSubsystem.getTagPitch(id));
     shooterPitchSubsystem.setPitch(PitchConstants.PITCH_MIN + desiredPitch);
     //);
   }

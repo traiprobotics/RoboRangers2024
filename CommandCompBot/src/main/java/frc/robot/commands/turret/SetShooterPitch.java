@@ -45,7 +45,6 @@ public class SetShooterPitch extends Command {
 
     //System.out.println(rotation); ////////////////////////////////////////////////////////////////// PRINT
     shooterPitchSubsystem.setPitch(rotation);
-    
   }
 
   // Called once the command ends or is interrupted.

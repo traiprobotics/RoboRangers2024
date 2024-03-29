@@ -51,6 +51,9 @@ public final class Constants {
     public static final double WHEEL_DISTANCE_FROM_CENTER = 21.75/2;
 
     public static final double ENCODER_PER_REVOLUTION = 8.4;
+
+    public static double leftAutoSpeed = 0;
+    public static double rightAutoSpeed = 0;
   }
 
   public static class IntakeConstants {
@@ -61,8 +64,8 @@ public final class Constants {
   public static class TurretConstants {
     public static final double INDEXER_BACK_TIME = 0;
     public static final double INDEXER_BACK_SPEED = -0.3;
-    public static final double SHOOTER_LEFT_SPEED = 4000;
-    public static final double SHOOTER_RIGHT_SPEED = 4000;
+    public static final double SHOOTER_BOTTOM_SPEED = 4000;
+    public static final double SHOOTER_TOP_SPEED = 4000;
     public static final double INDEXER_SHOOT_SPEED = 1;
     public static final double INDEXER_NORMAL_SPEED = 0.6;
     public static final double SHOOTER_BACK_SPEED = -300;
@@ -72,12 +75,12 @@ public final class Constants {
   }
 
   public static class ClimbConstants {
-    public static final double LEFT_SERVO_UNLOCK = 0.2;
+    public static final double LEFT_SERVO_UNLOCK = 1;
     public static final double LEFT_SERVO_LOCK = 0.5;
     public static final double RIGHT_SERVO_UNLOCK = 0.7;
     public static final double RIGHT_SERVO_LOCK = 1;
     public static final double CLIMB_SPEED_DOWN = 1;
-    public static final double CLIMB_SPEED_UP = 0.1;
+    public static final double CLIMB_SPEED_UP = 0.8;
   }
 
   public static class PIDConstants {
@@ -127,7 +130,7 @@ public final class Constants {
     public static final double MIN_RANGE = 0;
 
     public static final double MAX_DISTANCE_SHOOTER_ANGLE = 0.5;
-    public static final double MIN_DISTANCE_SHOOTER_ANGLE = 0.39;
+    public static final double MIN_DISTANCE_SHOOTER_ANGLE = 0.43;
     public static final double MAX_DISTANCE_TARGET_ANGLE = -6;
     public static final double MIN_DISTANCE_TARGET_ANGLE = 18;
 

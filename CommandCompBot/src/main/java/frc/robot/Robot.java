@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Constants.DrivetrainConstants;
 import frc.robot.Constants.PIDConstants;
 import frc.robot.subsystems.turret.ShooterPitchSubsystem;
 
@@ -75,7 +76,9 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during autonomous. */
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+    m_robotContainer.autoDrive(DrivetrainConstants.leftAutoSpeed, DrivetrainConstants.rightAutoSpeed);
+  }
 
   @Override
   public void teleopInit() {
@@ -86,7 +89,7 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-    
+    //m_robotContainer.teleopDefaultCommands();
   }
 
   /** This function is called periodically during operator control. */

@@ -22,7 +22,7 @@ public class StartShooter extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    shooterSubsystem.shoot(TurretConstants.SHOOTER_LEFT_SPEED, TurretConstants.SHOOTER_RIGHT_SPEED);
+    shooterSubsystem.shoot(TurretConstants.SHOOTER_TOP_SPEED, TurretConstants.SHOOTER_BOTTOM_SPEED);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

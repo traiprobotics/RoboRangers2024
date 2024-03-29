@@ -5,12 +5,19 @@
 package frc.robot;
 
 
+import java.util.Optional;
+
 import org.photonvision.PhotonCamera;
 
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DigitalOutput;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.ClimbConstants;
+import frc.robot.Constants.DrivetrainConstants;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.PIDConstants;
 import frc.robot.Constants.PitchConstants;
@@ -83,6 +90,8 @@ public class RobotContainer {
   private static final RightClimbSubsystem m_rightClimb = new RightClimbSubsystem();
   private static final PhotonLimelightSubsystem m_limelight = new PhotonLimelightSubsystem();
 
+  DigitalOutput m_indexerLimit = new DigitalOutput(2);
+
   private Joystick driveJoystick = new Joystick(0);
   private CommandXboxController controlController = new CommandXboxController(1);
   
@@ -91,6 +100,13 @@ public class RobotContainer {
   private final String auto1 = "1";
   private final String auto2 = "2";
   private final String auto3 = "3";
+
+  //make team dropdown variables
+  // private final SendableChooser<String> m_teamTagChooser = new SendableChooser<>();
+  // private final String red = "1";
+  // private final String blue = "2";
+
+  private int trackedSpeakerTag = 4;
 
   //initialize auto commands
 
@@ -109,6 +125,11 @@ public class RobotContainer {
     m_autoChooser.setDefaultOption("Shoot and Back Up", auto1);
     m_autoChooser.addOption("Shoot, Back Up, and Intake Note", auto2);
     m_autoChooser.addOption("Amp Score", auto2);
+
+    //add team options to dropdown
+    // m_teamTagChooser.setDefaultOption("Red Alliance", red);
+    // m_teamTagChooser.addOption("Blue Alliance", blue);
+
     //push options to dashboard
     SmartDashboard.putData("Rat Sh*t Auto Selection", m_autoChooser);
     SmartDashboard.putNumber("Auto Wait Time (seconds)", 0);
@@ -128,6 +149,10 @@ public class RobotContainer {
     //m_shooterPitch.setDefaultCommand(new GetShooterPitchEncoder(m_shooterPitch));
     m_shooterPitch.setDefaultCommand(new SetShooterPitch(m_shooterPitch, controlController));
     m_turretYaw.setDefaultCommand(new SetTurretYaw(m_turretYaw, controlController));
+  }
+
+  public void teleopDefaultCommands() {
+    m_drivetrain.setDefaultCommand(new DriveArcade(m_drivetrain, driveJoystick));
   }
 
   /**
@@ -152,21 +177,29 @@ public class RobotContainer {
     //controlController.leftBumper().whileTrue(new RunBackIntake(m_intake));
 
 
-    controlController.leftBumper().whileTrue((new BackIntakeAndIndex(m_intake, m_indexer, m_turretYaw, m_shooterPitch)));
-    controlController.rightBumper().whileTrue((new FrontIntakeAndIndex(m_intake, m_indexer, m_turretYaw, m_shooterPitch)));
+    controlController.leftBumper().whileTrue((new BackIntakeAndIndex(m_intake, m_indexer, m_turretYaw, m_shooterPitch, m_indexerLimit)));
+    controlController.rightBumper().whileTrue((new FrontIntakeAndIndex(m_intake, m_indexer, m_turretYaw, m_shooterPitch, m_indexerLimit)));
 
     controlController.pov(270).whileTrue(new SetTurretYawPreset(m_turretYaw, YawConstants.RIGHT_SIDE));
     controlController.pov(90).whileTrue(new SetTurretYawPreset(m_turretYaw, YawConstants.LEFT_SIDE));
 
     //controlController.button(7).whileTrue(new RunBackIntake(m_intake, IntakeConstants.OUTTAKE_SPEED));
     //controlController.button(8).whileTrue(new RunFrontIntake(m_intake, IntakeConstants.OUTTAKE_SPEED));
- 
+    
+    if (DriverStation.getAlliance().equals(Optional.of(Alliance.Blue))) {
+      trackedSpeakerTag = 7;
+    } else {
+      trackedSpeakerTag = 4;
+    }
+
     controlController.button(7).whileTrue(
       new ParallelDeadlineGroup(
-        new CameraTurretYaw(m_turretYaw, m_limelight, 3), 
-        new CameraShooterPitch(m_shooterPitch, m_limelight, 3)
+        new CameraTurretYaw(m_turretYaw, m_limelight, trackedSpeakerTag), 
+        new CameraShooterPitch(m_shooterPitch, m_limelight, trackedSpeakerTag)
       )
     );
+
+
     controlController.button(8).whileTrue(new AutoDrive(m_drivetrain, 30, 0));
 
     controlController.y().whileTrue(new RunShooter(m_shooter));
@@ -179,22 +212,22 @@ public class RobotContainer {
     sprint.whileTrue(new SprintDriveArcade(m_drivetrain, driveJoystick));
 
     // //unlock climb servos
-    // Trigger button7 = new JoystickButton(driveJoystick, 7);
-    // button7.whileTrue(new LeftClimbRatchet(m_leftClimb));
+    Trigger button7 = new JoystickButton(driveJoystick, 7);
+    button7.whileTrue(new LeftClimbRatchet(m_leftClimb));
 
-    // Trigger button8 = new JoystickButton(driveJoystick, 8);
-    // button8.whileTrue(new RightClimbRatchet(m_rightClimb));   
+    Trigger button8 = new JoystickButton(driveJoystick, 8);
+    button8.whileTrue(new RightClimbRatchet(m_rightClimb));   
 
-    // //raise climb arms
-    // Trigger button9 = new JoystickButton(driveJoystick, 9);
-    // button9.whileTrue(new RunClimbLeft(m_leftClimb, -ClimbConstants.CLIMB_SPEED_UP));
+    //raise climb arms
+    Trigger button9 = new JoystickButton(driveJoystick, 9);
+    button9.whileTrue(new RunClimbLeft(m_leftClimb, -ClimbConstants.CLIMB_SPEED_UP));
 
-    // Trigger button10 = new JoystickButton(driveJoystick, 10);
-    // button10.whileTrue(new RunClimbRight(m_rightClimb, -ClimbConstants.CLIMB_SPEED_UP));
+    Trigger button10 = new JoystickButton(driveJoystick, 10);
+    button10.whileTrue(new RunClimbRight(m_rightClimb, -ClimbConstants.CLIMB_SPEED_UP));
 
-    // //lower climb arms
-    // Trigger button11 = new JoystickButton(driveJoystick, 11);
-    // button11.whileTrue(new RunClimbLeft(m_leftClimb, ClimbConstants.CLIMB_SPEED_DOWN));
+    //lower climb arms
+    Trigger button11 = new JoystickButton(driveJoystick, 11);
+    button11.whileTrue(new RunClimbLeft(m_leftClimb, ClimbConstants.CLIMB_SPEED_DOWN));
 
     Trigger button12 = new JoystickButton(driveJoystick, 12);
     button12.whileTrue(new RunClimbRight(m_rightClimb, ClimbConstants.CLIMB_SPEED_DOWN));
@@ -204,6 +237,10 @@ public class RobotContainer {
     //semi-auto commands
     //(new BackIntakeAndIndex(m_intake, m_indexer, m_turretYaw, m_shooterPitch));
     //(new FrontIntakeAndIndex(m_intake, m_indexer, m_turretYaw, m_shooterPitch));
+  }
+
+  public void autoDrive(double leftSpeed, double rightSpeed) {
+    m_drivetrain.driveAuto(leftSpeed, rightSpeed);
   }
 
   /**
@@ -229,27 +266,23 @@ public class RobotContainer {
     //set the auto command to a sequential command of waiting the time from the sendableChooser than the auto we want
     //(not too sure on if this will work lmao)
     auto = new SequentialCommandGroup(
-      new AutoDrive(m_drivetrain, 300, 0)
+      new AutoDrive(m_drivetrain, 30, 0),
+      new SetTurretYawPreset(m_turretYaw, YawConstants.RED_AMP_AUTO),
+      new SetShooterPitchPreset(m_shooterPitch, PitchConstants.AMP_SCORE_PITCH),
+      new WaitCommand(1),
+      new StopDrive(m_drivetrain),
+      new RunShooter(m_shooter),
+      new WaitCommand(1),
+      new RunIndexer(m_indexer, TurretConstants.INDEXER_SHOOT_SPEED),
+      new WaitCommand(1),
+      new StopEverything(m_intake, m_shooter, m_indexer, m_drivetrain)
     );
-    
-    // new SequentialCommandGroup(
-    //   new StartDrive(m_drivetrain, 0.4, 0.4),
-    //   new SetTurretYawPreset(m_turretYaw, YawConstants.RED_AMP_AUTO),
-    //   new SetShooterPitchPreset(m_shooterPitch, PitchConstants.AMP_SCORE_PITCH),
-    //   new WaitCommand(1),
-    //   new StopDrive(m_drivetrain),
-    //   new RunShooter(m_shooter),
-    //   new WaitCommand(1),
-    //   new RunIndexer(m_indexer, TurretConstants.INDEXER_SHOOT_SPEED),
-    //   new WaitCommand(1),
-    //   new StopEverything(m_intake, m_shooter, m_indexer, m_drivetrain)
-      
     // );
-    //new AmpScoreAuto(m_shooter, m_indexer, m_drivetrain, m_turretYaw, m_shooterPitch);
+    // auto = new AmpScoreAuto(m_shooter, m_indexer, m_drivetrain, m_turretYaw, m_shooterPitch);
 
     //auto = new SequentialCommandGroup(new StartShooter(m_shooter), new WaitCommand(2), new StopEverything(m_intake, m_shooter, m_indexer, m_drivetrain));
 
     //new SequentialCommandGroup(new WaitCommand(SmartDashboard.getNumber("Auto Wait Time (Seconds)", 0)), auto);
-    return auto;
+    return null;
   }
 }

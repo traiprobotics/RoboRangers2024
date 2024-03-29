@@ -25,12 +25,15 @@ public class AutoDrive extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    drivetrainSubsystem.autoDrive(desiredDistance, desiredAngle);
+    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    drivetrainSubsystem.autoDrive(desiredDistance, desiredAngle);
+    //if (drivetrainSubsystem.)
+  }
 
   // Called once the command ends or is interrupted.
   @Override

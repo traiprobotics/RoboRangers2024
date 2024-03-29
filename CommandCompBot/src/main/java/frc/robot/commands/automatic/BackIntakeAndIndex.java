@@ -4,6 +4,7 @@
 
 package frc.robot.commands.automatic;
 
+import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.IntakeConstants;
@@ -23,11 +24,14 @@ public class BackIntakeAndIndex extends Command {
   private TurretYawSubsystem turretYawSubsystem;
   private ShooterPitchSubsystem shooterPitchSubsystem;
 
-  public BackIntakeAndIndex(IntakeSubsystem intake, IndexerSubsystem indexer, TurretYawSubsystem turretYaw, ShooterPitchSubsystem shooterPitch) {
+  private DigitalOutput indexerLimit;
+
+  public BackIntakeAndIndex(IntakeSubsystem intake, IndexerSubsystem indexer, TurretYawSubsystem turretYaw, ShooterPitchSubsystem shooterPitch, DigitalOutput limit) {
     this.intakeSubsystem = intake;
     this.indexerSubsystem = indexer;
     this.turretYawSubsystem = turretYaw;
     this.shooterPitchSubsystem = shooterPitch;
+    this.indexerLimit = limit;
 
     addRequirements(intakeSubsystem,indexerSubsystem,turretYawSubsystem,shooterPitchSubsystem);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -46,8 +50,10 @@ public class BackIntakeAndIndex extends Command {
       intakeSubsystem.runBackIntake(-IntakeConstants.INTAKE_SPEED);
     }
 
-    //intakeSubsystem.runBackIntake(-IntakeConstants.INTAKE_SPEED);
-    indexerSubsystem.runIndexer(TurretConstants.INDEXER_NORMAL_SPEED);
+    if (indexerLimit.get() == false) {
+      //intakeSubsystem.runBackIntake(-IntakeConstants.INTAKE_SPEED);
+      indexerSubsystem.runIndexer(TurretConstants.INDEXER_NORMAL_SPEED);
+    }
   }
 
   // Called once the command ends or is interrupted.
