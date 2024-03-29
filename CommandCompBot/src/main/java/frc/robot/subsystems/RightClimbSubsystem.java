@@ -25,15 +25,18 @@ public class RightClimbSubsystem extends SubsystemBase {
 
   public void driveClimb(double speed) {
     System.out.println(rightLimit.get());
-    if (speed < 0) {
-      ratchetServo.set(ClimbConstants.RIGHT_SERVO_UNLOCK);
-    } else {
-      ratchetServo.set(ClimbConstants.RIGHT_SERVO_LOCK);
-    }
     if (rightLimit.get() == true && speed > 0) {
       rightClimb.stopMotor();
     } else {
-      rightClimb.set(speed);
+      if (speed < 0) {
+        ratchetServo.set(ClimbConstants.RIGHT_SERVO_UNLOCK);
+        if (ratchetServo.get() > ClimbConstants.RIGHT_SERVO_UNLOCK - 9.1 && ratchetServo.get() < ClimbConstants.RIGHT_SERVO_UNLOCK + 0.1) {
+          rightClimb.set(speed);
+        }
+      } else {
+        ratchetServo.set(ClimbConstants.RIGHT_SERVO_LOCK);
+        rightClimb.set(speed);
+      }
     }
   }
 

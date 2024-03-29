@@ -27,15 +27,18 @@ public class LeftClimbSubsystem extends SubsystemBase {
 
   public void driveClimb(double speed) {
     System.out.println(leftLimit.get());
-    if (speed < 0) {
-      ratchetServo.set(ClimbConstants.LEFT_SERVO_UNLOCK);
-    } else {
-      ratchetServo.set(ClimbConstants.LEFT_SERVO_LOCK);
-    }
     if (leftLimit.get() == true && speed > 0) {
       leftClimb.stopMotor();
     } else {
-      leftClimb.set(speed);
+      if (speed < 0) {
+        ratchetServo.set(ClimbConstants.LEFT_SERVO_UNLOCK);
+        if (ratchetServo.get() > ClimbConstants.LEFT_SERVO_UNLOCK - 9.1 && ratchetServo.get() < ClimbConstants.LEFT_SERVO_UNLOCK + 0.1) {
+          leftClimb.set(speed);
+        }
+      } else {
+        ratchetServo.set(ClimbConstants.LEFT_SERVO_LOCK);
+        leftClimb.set(speed);
+      }
     }
   }
 

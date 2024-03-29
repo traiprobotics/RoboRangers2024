@@ -195,7 +195,8 @@ public class RobotContainer {
     controlController.button(7).whileTrue(
       new ParallelDeadlineGroup(
         new CameraTurretYaw(m_turretYaw, m_limelight, trackedSpeakerTag), 
-        new CameraShooterPitch(m_shooterPitch, m_limelight, trackedSpeakerTag)
+        new CameraShooterPitch(m_shooterPitch, m_limelight, trackedSpeakerTag),
+        new RunShooter(m_shooter)
       )
     );
 
