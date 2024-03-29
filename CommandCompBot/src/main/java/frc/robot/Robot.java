@@ -4,7 +4,12 @@
 
 package frc.robot;
 
+import java.sql.Driver;
+import java.util.Optional;
+
 import edu.wpi.first.net.PortForwarder;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -68,6 +73,13 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
+    // if (DriverStation.getAlliance().equals(Optional.of(Alliance.Blue))) {
+    //   m_robotContainer.trackedSpeakerTag = 7;
+    // } else {
+    //   m_robotContainer.trackedSpeakerTag = 4;
+    // }
+
+
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
@@ -77,7 +89,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
-    m_robotContainer.autoSetDriveSpeed(DrivetrainConstants.leftAutoSpeed, DrivetrainConstants.rightAutoSpeed);
+    //m_robotContainer.autoSetDriveSpeed(DrivetrainConstants.leftAutoSpeed, DrivetrainConstants.rightAutoSpeed);
   }
 
   @Override
@@ -86,10 +98,21 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
+    // Optional<Alliance> ally = DriverStation.getAlliance();
+    // if (ally.isPresent()) {
+    //   if (ally.get() == Alliance.Red) {
+    //     m_robotContainer.trackedSpeakerTag = 4;
+    //   }
+    //   if (ally.get() == Alliance.Blue) {
+    //     m_robotContainer.trackedSpeakerTag = 7;
+    //   }
+    // }
+
+
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-    //m_robotContainer.teleopDefaultCommands();
+    m_robotContainer.teleopDefaultCommands();
   }
 
   /** This function is called periodically during operator control. */

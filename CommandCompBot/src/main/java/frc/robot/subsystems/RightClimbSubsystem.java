@@ -20,15 +20,14 @@ public class RightClimbSubsystem extends SubsystemBase {
   private static DigitalInput rightLimit = new DigitalInput(0);
 
   public RightClimbSubsystem() {
-    ratchetServo.set(ClimbConstants.RIGHT_SERVO_LOCK);
+    ratchetServo.set(ClimbConstants.RIGHT_SERVO_UNLOCK);
   }
 
   public void driveClimb(double speed) {
-    System.out.println(rightLimit.get());
     if (rightLimit.get() == true && speed > 0) {
       rightClimb.stopMotor();
     } else {
-      if (speed < 0) {
+      if (speed <= 0) {
         ratchetServo.set(ClimbConstants.RIGHT_SERVO_UNLOCK);
         if (ratchetServo.get() > ClimbConstants.RIGHT_SERVO_UNLOCK - 9.1 && ratchetServo.get() < ClimbConstants.RIGHT_SERVO_UNLOCK + 0.1) {
           rightClimb.set(speed);

@@ -106,7 +106,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
   //= 5.3476 ticks per foot
 
   public double getEncoderFeet() {
-    return (leftDriveEncoder.getPosition() + -rightDriveEncoder.getPosition()) / 2 * (DrivetrainConstants.ENCODER_PER_REVOLUTION/ DrivetrainConstants.WHEEL_CIRCUMFERENCE);
+    double distance = (Math.abs(leftDriveEncoder.getPosition()) + Math.abs(rightDriveEncoder.getPosition())) / 2 * (DrivetrainConstants.ENCODER_PER_REVOLUTION/ DrivetrainConstants.WHEEL_CIRCUMFERENCE);
+    System.out.println(distance);
+    return distance;
   }
 
   // public void autoDrive(double desiredDistance) {

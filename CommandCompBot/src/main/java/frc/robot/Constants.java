@@ -67,7 +67,7 @@ public final class Constants {
     public static final double SHOOTER_BOTTOM_SPEED = 4000;
     public static final double SHOOTER_TOP_SPEED = 4000;
     public static final double INDEXER_SHOOT_SPEED = 1;
-    public static final double INDEXER_NORMAL_SPEED = 0.6;
+    public static final double INDEXER_NORMAL_SPEED = 0.4;
     public static final double SHOOTER_BACK_SPEED = -300;
     public static boolean canIndex = true;
 

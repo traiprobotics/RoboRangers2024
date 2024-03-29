@@ -4,6 +4,7 @@
 
 package frc.robot.commands.automatic;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -23,12 +24,13 @@ public class FrontIntakeAndIndex extends Command {
   private IndexerSubsystem indexerSubsystem;
   private TurretYawSubsystem turretYawSubsystem;
   private ShooterPitchSubsystem shooterPitchSubsystem;
-  private DigitalOutput indexerLimit;
+  private DigitalInput indexerLimit;
 
-  public FrontIntakeAndIndex(IntakeSubsystem intake, IndexerSubsystem indexer, TurretYawSubsystem turretYaw, ShooterPitchSubsystem shooterPitch, DigitalOutput limit) {
+  public FrontIntakeAndIndex(IntakeSubsystem intake, IndexerSubsystem indexer, TurretYawSubsystem turretYaw, ShooterPitchSubsystem shooterPitch, DigitalInput limit) {
     this.intakeSubsystem = intake;
     this.indexerSubsystem = indexer;
     this.turretYawSubsystem = turretYaw;
+    this.indexerLimit = limit;
     this.shooterPitchSubsystem = shooterPitch;
 
     addRequirements(intakeSubsystem,indexerSubsystem,turretYawSubsystem,shooterPitchSubsystem);
@@ -48,8 +50,10 @@ public class FrontIntakeAndIndex extends Command {
       intakeSubsystem.runFrontIntake(IntakeConstants.INTAKE_SPEED);
     }
 
-    if (indexerLimit.get() == false) {
+    if (indexerLimit.get() == true) {
       indexerSubsystem.runIndexer(TurretConstants.INDEXER_NORMAL_SPEED);
+    } else {
+      indexerSubsystem.stopIndexer();
     }
   }
 

@@ -28,11 +28,14 @@ import frc.robot.commands.DriveArcade;
 import frc.robot.commands.RunBackIntake;
 import frc.robot.commands.RunFrontIntake;
 import frc.robot.commands.SprintDriveArcade;
-import frc.robot.commands.automatic.BackIntakeAndIndex;
 import frc.robot.commands.automatic.CameraShooterPitch;
 import frc.robot.commands.automatic.CameraTurretYaw;
 import frc.robot.commands.automatic.FrontIntakeAndIndex;
+import frc.robot.commands.autonomous.commands.AutoBackIntakeAndIndex;
 import frc.robot.commands.autonomous.commands.AutoDrive;
+import frc.robot.commands.autonomous.commands.AutoShoot;
+import frc.robot.commands.automatic.BackIntakeAndIndex;
+import frc.robot.commands.autonomous.commands.SetDriveSpeed;
 import frc.robot.commands.autonomous.commands.StartDrive;
 import frc.robot.commands.autonomous.commands.StartShooter;
 import frc.robot.commands.autonomous.commands.StopDrive;
@@ -90,7 +93,7 @@ public class RobotContainer {
   private static final RightClimbSubsystem m_rightClimb = new RightClimbSubsystem();
   private static final PhotonLimelightSubsystem m_limelight = new PhotonLimelightSubsystem();
 
-  DigitalOutput m_indexerLimit = new DigitalOutput(2);
+  private static DigitalInput m_indexerLimit = new DigitalInput(2);
 
   private Joystick driveJoystick = new Joystick(0);
   private CommandXboxController controlController = new CommandXboxController(1);
@@ -106,7 +109,7 @@ public class RobotContainer {
   // private final String red = "1";
   // private final String blue = "2";
 
-  private int trackedSpeakerTag = 4;
+  public int trackedSpeakerTag = 4;
 
   //initialize auto commands
 
@@ -122,9 +125,9 @@ public class RobotContainer {
     defaultCommands();
 
     //add auto options to dropdown
-    m_autoChooser.setDefaultOption("Shoot and Back Up", auto1);
+    m_autoChooser.setDefaultOption("Back Up", auto1);
+    m_autoChooser.addOption("Shoot Straight and Back Up", auto2);
     m_autoChooser.addOption("Shoot, Back Up, and Intake Note", auto2);
-    m_autoChooser.addOption("Amp Score", auto2);
 
     //add team options to dropdown
     // m_teamTagChooser.setDefaultOption("Red Alliance", red);
@@ -145,7 +148,7 @@ public class RobotContainer {
   }
 
   private void defaultCommands() {
-    m_drivetrain.setDefaultCommand(new DriveArcade(m_drivetrain, driveJoystick));
+    //m_drivetrain.setDefaultCommand(new DriveArcade(m_drivetrain, driveJoystick));
     //m_shooterPitch.setDefaultCommand(new GetShooterPitchEncoder(m_shooterPitch));
     m_shooterPitch.setDefaultCommand(new SetShooterPitch(m_shooterPitch, controlController));
     m_turretYaw.setDefaultCommand(new SetTurretYaw(m_turretYaw, controlController));
@@ -186,17 +189,13 @@ public class RobotContainer {
     //controlController.button(7).whileTrue(new RunBackIntake(m_intake, IntakeConstants.OUTTAKE_SPEED));
     //controlController.button(8).whileTrue(new RunFrontIntake(m_intake, IntakeConstants.OUTTAKE_SPEED));
     
-    if (DriverStation.getAlliance().equals(Optional.of(Alliance.Blue))) {
-      trackedSpeakerTag = 7;
-    } else {
-      trackedSpeakerTag = 4;
-    }
+
 
     controlController.button(7).whileTrue(
       new ParallelDeadlineGroup(
         new CameraTurretYaw(m_turretYaw, m_limelight, trackedSpeakerTag), 
-        new CameraShooterPitch(m_shooterPitch, m_limelight, trackedSpeakerTag),
-        new RunShooter(m_shooter)
+        new CameraShooterPitch(m_shooterPitch, m_limelight, trackedSpeakerTag)
+        //new RunShooter(m_shooter)
       )
     );
 
@@ -240,9 +239,9 @@ public class RobotContainer {
     //(new FrontIntakeAndIndex(m_intake, m_indexer, m_turretYaw, m_shooterPitch));
   }
 
-  public void autoSetDriveSpeed(double leftSpeed, double rightSpeed) {
-    m_drivetrain.setDriveSpeed(leftSpeed, rightSpeed);
-  }
+  // public void autoSetDriveSpeed(double leftSpeed, double rightSpeed) {
+  //   m_drivetrain.setDriveSpeed(leftSpeed, rightSpeed);
+  // }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -253,26 +252,44 @@ public class RobotContainer {
     Command auto;
 
     //get auto to run from sendableChooser dropdown
-    switch (m_autoChooser.getSelected()) {
-      default:
-      case auto1:
-        auto = shootAndBackAuto;
-        break;
-      case auto2:
-        auto = shootBackAndIntakeAuto;
-        break;
-      case auto3:
-        auto = ampScoreAuto;
-    }
+    // switch (m_autoChooser.getSelected()) {
+    //   default:
+    //   case auto1:
+    //     auto = new AutoDrive(m_drivetrain, 8, 0);
+    //     break;
+    //   case auto2:
+    //     auto = new SequentialCommandGroup(
+    //       new AutoShoot(m_shooter, m_indexer),
+    //       new AutoDrive(m_drivetrain, 8, 0)
+    //     );
+    //     break;
+    //   case auto3:
+    //     auto = null;
+    // }
     //set the auto command to a sequential command of waiting the time from the sendableChooser than the auto we want
     //(not too sure on if this will work lmao)
-    auto = new ParallelCommandGroup(
-      // new CameraShooterPitch(m_shooterPitch, m_limelight, trackedSpeakerTag),
-      // new CameraTurretYaw(m_turretYaw, m_limelight, trackedSpeakerTag),
+    //auto = new ParallelCommandGroup(
+      //new CameraTurretYaw(m_turretYaw, m_limelight, trackedSpeakerTag),
+      //new SequentialCommandGroup(
+      //  new AutoShoot(m_shooter, m_indexer)
+      //)
+      auto = new SequentialCommandGroup(
+        //new AutoDrive(m_drivetrain, -6, 0.6)
+        new AutoShoot(m_shooter, m_indexer)
+        // new WaitCommand(3),
+        // new ParallelCommandGroup(
+           //new AutoDrive(m_drivetrain, 6, 0.6)
+        //   new AutoBackIntakeAndIndex(m_intake, m_indexer, m_turretYaw, m_shooterPitch, m_indexerLimit)
+        // ),
+        // new AutoDrive(m_drivetrain, -6, 0.6),
+        // new AutoShoot(m_shooter, m_indexer)
+      );
       //drive 7.5 feet
-      new AutoDrive(m_drivetrain, 7.5, 0)
-
-      // new AutoDrive(m_drivetrain, 30, 0),
+      
+      //new SetDriveSpeed(0.4, 0.4),
+      //new WaitCommand(3),
+     // new SetDriveSpeed(0, 0)
+      
       // new SetTurretYawPreset(m_turretYaw, YawConstants.RED_AMP_AUTO),
       // new SetShooterPitchPreset(m_shooterPitch, PitchConstants.AMP_SCORE_PITCH),
       // new WaitCommand(1),
@@ -282,13 +299,13 @@ public class RobotContainer {
       // new RunIndexer(m_indexer, TurretConstants.INDEXER_SHOOT_SPEED),
       // new WaitCommand(1),
       // new StopEverything(m_intake, m_shooter, m_indexer, m_drivetrain)
-    );
+    //);
     // );
     // auto = new AmpScoreAuto(m_shooter, m_indexer, m_drivetrain, m_turretYaw, m_shooterPitch);
 
     //auto = new SequentialCommandGroup(new StartShooter(m_shooter), new WaitCommand(2), new StopEverything(m_intake, m_shooter, m_indexer, m_drivetrain));
-
+      
     //new SequentialCommandGroup(new WaitCommand(SmartDashboard.getNumber("Auto Wait Time (Seconds)", 0)), auto);
-    return null;
+    return auto;
   }
 }

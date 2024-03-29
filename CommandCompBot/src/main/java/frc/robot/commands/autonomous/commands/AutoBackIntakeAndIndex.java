@@ -2,10 +2,11 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.automatic;
+package frc.robot.commands.autonomous.commands;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DigitalOutput;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.IntakeConstants;
@@ -17,7 +18,7 @@ import frc.robot.subsystems.turret.IndexerSubsystem;
 import frc.robot.subsystems.turret.ShooterPitchSubsystem;
 import frc.robot.subsystems.turret.TurretYawSubsystem;
 
-public class BackIntakeAndIndex extends Command {
+public class AutoBackIntakeAndIndex extends Command {
   /** Creates a new BackIntakeAndIndex. */
 
   private IntakeSubsystem intakeSubsystem;
@@ -26,8 +27,9 @@ public class BackIntakeAndIndex extends Command {
   private ShooterPitchSubsystem shooterPitchSubsystem;
 
   private DigitalInput indexerLimit;
+  private double timestamp;
 
-  public BackIntakeAndIndex(IntakeSubsystem intake, IndexerSubsystem indexer, TurretYawSubsystem turretYaw, ShooterPitchSubsystem shooterPitch, DigitalInput limit) {
+  public AutoBackIntakeAndIndex(IntakeSubsystem intake, IndexerSubsystem indexer, TurretYawSubsystem turretYaw, ShooterPitchSubsystem shooterPitch, DigitalInput limit) {
     this.intakeSubsystem = intake;
     this.indexerSubsystem = indexer;
     this.turretYawSubsystem = turretYaw;
@@ -40,7 +42,9 @@ public class BackIntakeAndIndex extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    timestamp = Timer.getFPGATimestamp();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -73,6 +77,10 @@ public class BackIntakeAndIndex extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    if (Timer.getFPGATimestamp() > timestamp + 3) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

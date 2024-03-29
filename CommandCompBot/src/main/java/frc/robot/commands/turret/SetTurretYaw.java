@@ -36,7 +36,7 @@ public class SetTurretYaw extends Command {
     
     double controllerInput = controlController.getRawAxis(0);
     if (controllerInput >= 0.02 || controllerInput <= -0.02) {
-      yaw += controllerInput / YawConstants.YAW_CONTROL_REDUCTION;
+      yaw -= controllerInput / YawConstants.YAW_CONTROL_REDUCTION;
     }
     if (yaw > YawConstants.YAW_MAX || yaw < YawConstants.YAW_MIN) {
       yaw = YawConstants.YAW_HOME;

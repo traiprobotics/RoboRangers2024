@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ClimbConstants;
-import frc.robot.commands.LeftClimbRatchet;
+import frc.robot.commands.climb.LeftClimbRatchet;
 
 public class LeftClimbSubsystem extends SubsystemBase {
   /** Creates a new LeftClimbSubsystem. */
@@ -22,17 +22,22 @@ public class LeftClimbSubsystem extends SubsystemBase {
   private static DigitalInput leftLimit = new DigitalInput(1);
 
   public LeftClimbSubsystem() {
-    ratchetServo.set(ClimbConstants.LEFT_SERVO_LOCK);
+    ratchetServo.set(ClimbConstants.LEFT_SERVO_UNLOCK);
   }
 
   public void driveClimb(double speed) {
-    System.out.println(leftLimit.get());
+
+
+    // //only drive climb if it is not driving down into the switch
+    // if (leftLimit.get() == true && speed > 0) {
+
+    // }
     if (leftLimit.get() == true && speed > 0) {
       leftClimb.stopMotor();
     } else {
-      if (speed < 0) {
+      if (speed <= 0) {
         ratchetServo.set(ClimbConstants.LEFT_SERVO_UNLOCK);
-        if (ratchetServo.get() > ClimbConstants.LEFT_SERVO_UNLOCK - 9.1 && ratchetServo.get() < ClimbConstants.LEFT_SERVO_UNLOCK + 0.1) {
+        if (ratchetServo.get() > ClimbConstants.LEFT_SERVO_UNLOCK - 0.1 && ratchetServo.get() < ClimbConstants.LEFT_SERVO_UNLOCK + 0.1) {
           leftClimb.set(speed);
         }
       } else {
