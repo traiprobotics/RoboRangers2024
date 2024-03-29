@@ -100,7 +100,13 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
   public void arcadeDrive(double driveSpeed, double turnSpeed) {
     differentialDrive.arcadeDrive(driveSpeed, turnSpeed * turnSpeedMult);
+  }
 
+  //8.4 encoder ticks per 0.5pi (1.57) feet
+  //= 5.3476 ticks per foot
+
+  public double getEncoderFeet() {
+    return (leftDriveEncoder.getPosition() + -rightDriveEncoder.getPosition()) / 2 * (DrivetrainConstants.ENCODER_PER_REVOLUTION/ DrivetrainConstants.WHEEL_CIRCUMFERENCE);
   }
 
   // public void autoDrive(double desiredDistance) {
@@ -141,7 +147,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     differentialDrive.stopMotor();
   }
 
-  public void driveAuto(double leftDrive, double rightDrive) {
+  public void setDriveSpeed(double leftDrive, double rightDrive) {
     frontLeftDrive.set(leftDrive);
     backLeftDrive.set(leftDrive);
     frontRightDrive.set(rightDrive);

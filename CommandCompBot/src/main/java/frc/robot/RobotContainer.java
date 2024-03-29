@@ -25,11 +25,7 @@ import frc.robot.Constants.TurretConstants;
 import frc.robot.Constants.YawConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.DriveArcade;
-import frc.robot.commands.LeftClimbRatchet;
-import frc.robot.commands.RightClimbRatchet;
 import frc.robot.commands.RunBackIntake;
-import frc.robot.commands.RunClimbLeft;
-import frc.robot.commands.RunClimbRight;
 import frc.robot.commands.RunFrontIntake;
 import frc.robot.commands.SprintDriveArcade;
 import frc.robot.commands.automatic.BackIntakeAndIndex;
@@ -44,6 +40,10 @@ import frc.robot.commands.autonomous.commands.StopEverything;
 import frc.robot.commands.autonomous.routines.AmpScoreAuto;
 import frc.robot.commands.autonomous.routines.ShootAndBackAuto;
 import frc.robot.commands.autonomous.routines.ShootBackAndIntakeAuto;
+import frc.robot.commands.climb.LeftClimbRatchet;
+import frc.robot.commands.climb.RightClimbRatchet;
+import frc.robot.commands.climb.RunClimbLeft;
+import frc.robot.commands.climb.RunClimbRight;
 import frc.robot.commands.turret.SetShooterPitchPreset;
 import frc.robot.commands.turret.SetTurretYaw;
 import frc.robot.commands.turret.SetTurretYawPreset;
@@ -240,8 +240,8 @@ public class RobotContainer {
     //(new FrontIntakeAndIndex(m_intake, m_indexer, m_turretYaw, m_shooterPitch));
   }
 
-  public void autoDrive(double leftSpeed, double rightSpeed) {
-    m_drivetrain.driveAuto(leftSpeed, rightSpeed);
+  public void autoSetDriveSpeed(double leftSpeed, double rightSpeed) {
+    m_drivetrain.setDriveSpeed(leftSpeed, rightSpeed);
   }
 
   /**
@@ -266,17 +266,22 @@ public class RobotContainer {
     }
     //set the auto command to a sequential command of waiting the time from the sendableChooser than the auto we want
     //(not too sure on if this will work lmao)
-    auto = new SequentialCommandGroup(
-      new AutoDrive(m_drivetrain, 30, 0),
-      new SetTurretYawPreset(m_turretYaw, YawConstants.RED_AMP_AUTO),
-      new SetShooterPitchPreset(m_shooterPitch, PitchConstants.AMP_SCORE_PITCH),
-      new WaitCommand(1),
-      new StopDrive(m_drivetrain),
-      new RunShooter(m_shooter),
-      new WaitCommand(1),
-      new RunIndexer(m_indexer, TurretConstants.INDEXER_SHOOT_SPEED),
-      new WaitCommand(1),
-      new StopEverything(m_intake, m_shooter, m_indexer, m_drivetrain)
+    auto = new ParallelCommandGroup(
+      // new CameraShooterPitch(m_shooterPitch, m_limelight, trackedSpeakerTag),
+      // new CameraTurretYaw(m_turretYaw, m_limelight, trackedSpeakerTag),
+      //drive 7.5 feet
+      new AutoDrive(m_drivetrain, 7.5, 0)
+
+      // new AutoDrive(m_drivetrain, 30, 0),
+      // new SetTurretYawPreset(m_turretYaw, YawConstants.RED_AMP_AUTO),
+      // new SetShooterPitchPreset(m_shooterPitch, PitchConstants.AMP_SCORE_PITCH),
+      // new WaitCommand(1),
+      // new StopDrive(m_drivetrain),
+      // new RunShooter(m_shooter),
+      // new WaitCommand(1),
+      // new RunIndexer(m_indexer, TurretConstants.INDEXER_SHOOT_SPEED),
+      // new WaitCommand(1),
+      // new StopEverything(m_intake, m_shooter, m_indexer, m_drivetrain)
     );
     // );
     // auto = new AmpScoreAuto(m_shooter, m_indexer, m_drivetrain, m_turretYaw, m_shooterPitch);

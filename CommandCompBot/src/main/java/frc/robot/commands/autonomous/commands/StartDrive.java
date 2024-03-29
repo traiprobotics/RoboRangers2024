@@ -35,7 +35,7 @@ public class StartDrive extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    drivetrainSubsystem.driveAuto(leftDrive, rightDrive);
+    drivetrainSubsystem.setDriveSpeed(leftDrive, rightDrive);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

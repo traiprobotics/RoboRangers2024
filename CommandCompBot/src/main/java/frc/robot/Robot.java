@@ -77,7 +77,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
-    m_robotContainer.autoDrive(DrivetrainConstants.leftAutoSpeed, DrivetrainConstants.rightAutoSpeed);
+    m_robotContainer.autoSetDriveSpeed(DrivetrainConstants.leftAutoSpeed, DrivetrainConstants.rightAutoSpeed);
   }
 
   @Override

@@ -13,11 +13,14 @@ public class AutoDrive extends Command {
   private DrivetrainSubsystem drivetrainSubsystem;
   private double desiredDistance;
   private double desiredAngle;
+  private double encoderSetpoint;
 
   public AutoDrive(DrivetrainSubsystem drive, double distance, double angle) {
     this.drivetrainSubsystem = drive;
     this.desiredDistance = distance;
-    this.desiredAngle = angle;
+    //this.desiredAngle = angle;
+    //trying this without the angle implementation first
+
     addRequirements(drivetrainSubsystem);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -25,23 +28,28 @@ public class AutoDrive extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    
+    encoderSetpoint = drivetrainSubsystem.getEncoderFeet() + desiredDistance;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    drivetrainSubsystem.autoDrive(desiredDistance, desiredAngle);
-    //if (drivetrainSubsystem.)
+    drivetrainSubsystem.setDriveSpeed(0.3, 0.3);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    drivetrainSubsystem.setDriveSpeed(0, 0);
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    if (drivetrainSubsystem.getEncoderFeet() > encoderSetpoint) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
