@@ -4,11 +4,12 @@
 
 package frc.robot.commands.autonomous.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.DrivetrainConstants;
 import frc.robot.subsystems.DrivetrainSubsystem;
 
-public class AutoDrive extends Command {
+public class TimedAutoDrive extends Command {
   /** Creates a new AutoDrive. */
 
   private DrivetrainSubsystem drivetrainSubsystem;
@@ -16,11 +17,13 @@ public class AutoDrive extends Command {
   //private double desiredAngle;
   private double encoderSetpoint;
   private double speed;
+  private double timestamp;
+  private double runtime;
 
-  public AutoDrive(DrivetrainSubsystem drive, double distance, double speed) {
+  public TimedAutoDrive(DrivetrainSubsystem drive, double speed, double time) {
     this.drivetrainSubsystem = drive;
-    this.desiredDistance = distance * 2;
     this.speed = speed;
+    this.runtime = speed;
     //this.desiredAngle = angle;
     //trying this without the angle implementation first
 
@@ -31,21 +34,13 @@ public class AutoDrive extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    drivetrainSubsystem.resetDriveEncoders();
-    System.out.println("reset encoders");
-    encoderSetpoint = drivetrainSubsystem.getEncoderFeet() + desiredDistance;
-    System.out.println(drivetrainSubsystem.getEncoderFeet());
+    timestamp = Timer.getFPGATimestamp();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (desiredDistance >= 0) {
-      drivetrainSubsystem.arcadeDrive(-speed, 0);
-    } else {
-      drivetrainSubsystem.arcadeDrive(speed, 0);
-    }
-    System.out.println(drivetrainSubsystem.getEncoderFeet());
+    drivetrainSubsystem.arcadeDrive(speed, 0);
   }
 
   // Called once the command ends or is interrupted.
@@ -57,20 +52,10 @@ public class AutoDrive extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (desiredDistance >= 0) {
-      if (encoderSetpoint > drivetrainSubsystem.getEncoderFeet()) {
-        System.out.println("exit fwd");
-        return true;
-      } else {
-        return false;
-      }
+    if (Timer.getFPGATimestamp() > timestamp + runtime) {
+      return true;
     } else {
-      if ((encoderSetpoint - drivetrainSubsystem.getEncoderFeet()) > -0.2) {
-        System.out.println("exit back");
-        return true;
-      } else {
-        return false;
-      }
+      return false;
     }
   }
 }

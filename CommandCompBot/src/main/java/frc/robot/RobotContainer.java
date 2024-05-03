@@ -33,6 +33,7 @@ import frc.robot.commands.automatic.CameraTurretYaw;
 import frc.robot.commands.automatic.FrontIntakeAndIndex;
 import frc.robot.commands.autonomous.commands.AutoBackIntakeAndIndex;
 import frc.robot.commands.autonomous.commands.AutoDrive;
+import frc.robot.commands.autonomous.commands.AutoRunIndexer;
 import frc.robot.commands.autonomous.commands.AutoShoot;
 import frc.robot.commands.automatic.BackIntakeAndIndex;
 import frc.robot.commands.autonomous.commands.SetDriveSpeed;
@@ -40,6 +41,7 @@ import frc.robot.commands.autonomous.commands.StartDrive;
 import frc.robot.commands.autonomous.commands.StartShooter;
 import frc.robot.commands.autonomous.commands.StopDrive;
 import frc.robot.commands.autonomous.commands.StopEverything;
+import frc.robot.commands.autonomous.commands.TimedAutoDrive;
 import frc.robot.commands.autonomous.routines.AmpScoreAuto;
 import frc.robot.commands.autonomous.routines.ShootAndBackAuto;
 import frc.robot.commands.autonomous.routines.ShootBackAndIntakeAuto;
@@ -138,12 +140,12 @@ public class RobotContainer {
     SmartDashboard.putNumber("Auto Wait Time (seconds)", 0);
     //(idea from overdrive lol, for if like multiple people have shoot autos)
 
-    // SmartDashboard.putNumber("Pitch P Gain", PIDConstants.PITCH_P);
-    // SmartDashboard.putNumber("Pitch I Gain", PIDConstants.PITCH_I);
-    // SmartDashboard.putNumber("Pitch D Gain", PIDConstants.PITCH_D);
-    // SmartDashboard.putNumber("Pitch FF", PIDConstants.PITCH_FF);
-    // SmartDashboard.putNumber("Pitch Min Output", PIDConstants.PITCH_POWER_MIN);
-    // SmartDashboard.putNumber("Pitch Max Output", PIDConstants.PITCH_POWER_MAX);
+    SmartDashboard.putNumber("Pitch P Gain", PIDConstants.PITCH_P);
+    SmartDashboard.putNumber("Pitch I Gain", PIDConstants.PITCH_I);
+    SmartDashboard.putNumber("Pitch D Gain", PIDConstants.PITCH_D);
+    SmartDashboard.putNumber("Pitch FF", PIDConstants.PITCH_FF);
+    SmartDashboard.putNumber("Pitch Min Output", PIDConstants.PITCH_POWER_MIN);
+    SmartDashboard.putNumber("Pitch Max Output", PIDConstants.PITCH_POWER_MAX);
 
   }
 
@@ -157,6 +159,11 @@ public class RobotContainer {
   public void teleopDefaultCommands() {
     m_drivetrain.setDefaultCommand(new DriveArcade(m_drivetrain, driveJoystick));
   }
+
+  public void teleopInitCommands() {
+    m_shooterPitch.updateDashboard();
+  }
+  
 
   /**
    * Use this method to define your trigger->command mappings. Triggers can be created via the
@@ -178,7 +185,6 @@ public class RobotContainer {
 
     //controlController.rightBumper().whileTrue(new RunFrontIntake(m_intake));
     //controlController.leftBumper().whileTrue(new RunBackIntake(m_intake));
-
 
     controlController.leftBumper().whileTrue((new BackIntakeAndIndex(m_intake, m_indexer, m_turretYaw, m_shooterPitch, m_indexerLimit)));
     controlController.rightBumper().whileTrue((new FrontIntakeAndIndex(m_intake, m_indexer, m_turretYaw, m_shooterPitch, m_indexerLimit)));
@@ -274,14 +280,15 @@ public class RobotContainer {
       //  new AutoShoot(m_shooter, m_indexer)
       //)
       auto = new SequentialCommandGroup(
-        //new AutoDrive(m_drivetrain, -6, 0.6)
+        //new AutoDrive(m_drivetrain, -6, 0.6),
         new AutoShoot(m_shooter, m_indexer)
-        // new WaitCommand(3),
+        // new WaitCommand(2.5),
         // new ParallelCommandGroup(
-           //new AutoDrive(m_drivetrain, 6, 0.6)
+        //   new AutoDrive(m_drivetrain, -6, 0.6),
         //   new AutoBackIntakeAndIndex(m_intake, m_indexer, m_turretYaw, m_shooterPitch, m_indexerLimit)
         // ),
-        // new AutoDrive(m_drivetrain, -6, 0.6),
+        // new AutoRunIndexer(m_indexer, TurretConstants.INDEXER_BACK_SPEED, 0.2),
+        // new TimedAutoDrive(m_drivetrain, 0.6, 2.5),
         // new AutoShoot(m_shooter, m_indexer)
       );
       //drive 7.5 feet

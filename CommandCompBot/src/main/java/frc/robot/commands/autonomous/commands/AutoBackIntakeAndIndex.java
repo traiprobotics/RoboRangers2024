@@ -55,8 +55,6 @@ public class AutoBackIntakeAndIndex extends Command {
       intakeSubsystem.runBackIntake(-IntakeConstants.INTAKE_SPEED);
     }
 
-    System.out.println(indexerLimit.get());
-
     if (indexerLimit.get() == true) {
       //intakeSubsystem.runBackIntake(-IntakeConstants.INTAKE_SPEED);
       indexerSubsystem.runIndexer(TurretConstants.INDEXER_NORMAL_SPEED);
@@ -77,7 +75,7 @@ public class AutoBackIntakeAndIndex extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (Timer.getFPGATimestamp() > timestamp + 3) {
+    if (Timer.getFPGATimestamp() > timestamp + 4) {
       return true;
     } else {
       return false;

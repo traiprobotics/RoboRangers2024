@@ -51,7 +51,6 @@ public class BackIntakeAndIndex extends Command {
       intakeSubsystem.runBackIntake(-IntakeConstants.INTAKE_SPEED);
     }
 
-    System.out.println(indexerLimit.get());
 
     if (indexerLimit.get() == true) {
       //intakeSubsystem.runBackIntake(-IntakeConstants.INTAKE_SPEED);

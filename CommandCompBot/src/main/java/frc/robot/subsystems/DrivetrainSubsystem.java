@@ -100,15 +100,21 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
   public void arcadeDrive(double driveSpeed, double turnSpeed) {
     differentialDrive.arcadeDrive(driveSpeed, turnSpeed * turnSpeedMult);
+    //System.out.println("Left drive: " + leftDriveEncoder.getPosition() + "\nRight drive: " + rightDriveEncoder.getPosition());
   }
 
   //8.4 encoder ticks per 0.5pi (1.57) feet
   //= 5.3476 ticks per foot
 
   public double getEncoderFeet() {
-    double distance = (Math.abs(leftDriveEncoder.getPosition()) + Math.abs(rightDriveEncoder.getPosition())) / 2 * (DrivetrainConstants.ENCODER_PER_REVOLUTION/ DrivetrainConstants.WHEEL_CIRCUMFERENCE);
-    System.out.println(distance);
+    double distance = (-leftDriveEncoder.getPosition() + -rightDriveEncoder.getPosition()) / 2 * (DrivetrainConstants.ENCODER_PER_REVOLUTION/ DrivetrainConstants.WHEEL_CIRCUMFERENCE);
+    //System.out.println(distance);
     return distance;
+  }
+
+  public void resetDriveEncoders() {
+    leftDriveEncoder.setPosition(0);
+    rightDriveEncoder.setPosition(0);
   }
 
   // public void autoDrive(double desiredDistance) {

@@ -64,23 +64,23 @@ public class ShooterPitchSubsystem extends SubsystemBase {
     return shooterPitchEncoder.getPosition();
   }
 
-  // public void updateDashboard() {
-  //   double p = SmartDashboard.getNumber("P Gain", 0);
-  //   double i = SmartDashboard.getNumber("I Gain", 0);
-  //   double d = SmartDashboard.getNumber("D Gain", 0);
-  //   double ff = SmartDashboard.getNumber("Feed Forward", 0);
-  //   double max = SmartDashboard.getNumber("Max Output", 0);
-  //   double min = SmartDashboard.getNumber("Min Output", 0);
+  public void updateDashboard() {
+    double p = SmartDashboard.getNumber("P Gain", PIDConstants.PITCH_P);
+    double i = SmartDashboard.getNumber("I Gain", PIDConstants.PITCH_I);
+    double d = SmartDashboard.getNumber("D Gain", PIDConstants.PITCH_D);
+    double ff = SmartDashboard.getNumber("Feed Forward", PIDConstants.PITCH_FF);
+    double max = SmartDashboard.getNumber("Max Output", PIDConstants.PITCH_POWER_MAX);
+    double min = SmartDashboard.getNumber("Min Output", PIDConstants.DRIVE_POWER_MIN);
 
-  //   if((p != PIDConstants.PITCH_P)) { shooterPIDController.setP(p); PIDConstants.PITCH_P = p; }
-  //   if((i != PIDConstants.PITCH_I)) {  shooterPIDController.setI(i); PIDConstants.PITCH_I = i; }
-  //   if((d != PIDConstants.PITCH_D)) {  shooterPIDController.setD(d); PIDConstants.PITCH_D = d; }
-  //   if((ff != PIDConstants.PITCH_FF)) {  shooterPIDController.setFF(ff); PIDConstants.PITCH_FF = ff; }
-  //   if((max != PIDConstants.PITCH_POWER_MAX) || (min != PIDConstants.PITCH_POWER_MIN)) { 
-  //     shooterPIDController.setOutputRange(min, max); 
-  //     PIDConstants.PITCH_POWER_MIN = min; PIDConstants.PITCH_POWER_MAX = max; 
-  //   }
-  // }
+    if((p != PIDConstants.PITCH_P)) { shooterPIDController.setP(p); PIDConstants.PITCH_P = p; }
+    if((i != PIDConstants.PITCH_I)) {  shooterPIDController.setI(i); PIDConstants.PITCH_I = i; }
+    if((d != PIDConstants.PITCH_D)) {  shooterPIDController.setD(d); PIDConstants.PITCH_D = d; }
+    if((ff != PIDConstants.PITCH_FF)) {  shooterPIDController.setFF(ff); PIDConstants.PITCH_FF = ff; }
+    if((max != PIDConstants.PITCH_POWER_MAX) || (min != PIDConstants.PITCH_POWER_MIN)) { 
+      shooterPIDController.setOutputRange(min, max); 
+      PIDConstants.PITCH_POWER_MIN = min; PIDConstants.PITCH_POWER_MAX = max; 
+    }
+  }
 
   @Override
   public void periodic() {
