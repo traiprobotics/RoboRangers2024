@@ -129,7 +129,7 @@ public final class Constants {
     public static final double MAX_RANGE = 105;
     public static final double MIN_RANGE = 0;
 
-    public static final double MAX_DISTANCE_SHOOTER_ANGLE = 0.5;
+    public static final double MAX_DISTANCE_SHOOTER_ANGLE = 0.54;
     public static final double MIN_DISTANCE_SHOOTER_ANGLE = 0.45;
     public static final double MAX_DISTANCE_TARGET_ANGLE = -6;
     public static final double MIN_DISTANCE_TARGET_ANGLE = 18;
