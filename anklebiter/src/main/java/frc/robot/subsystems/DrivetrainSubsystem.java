@@ -35,6 +35,16 @@ public class DrivetrainSubsystem extends SubsystemBase {
     differentialDrive.arcadeDrive(driveSpeed, turnSpeed);
   }
 
+  public void driveForward() {
+    frontLeftDrive.set(0.5);
+    frontRightDrive.set(0.5);
+  }
+
+  public void driveStop() {
+    frontLeftDrive.set(0);
+    frontRightDrive.set(0);
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

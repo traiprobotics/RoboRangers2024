@@ -4,48 +4,38 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.DrivetrainSubsystem;
 
-public class DriveArcade extends Command {
+public class DriveForward extends Command {
+  /** Creates a new DriveForward. */
 
-  private DrivetrainSubsystem drivetrainSubsystem;
-  private Joystick driveJoystick;
+private DrivetrainSubsystem drivetrainSubsystem;
 
-  double drive;
-  double turn;
-
-
-
-  /** Creates a new DriveArcade. */
-  public DriveArcade(DrivetrainSubsystem drive, Joystick joy) {
-    // Use addRequirements() here to declare subsystem dependencies.
+  public DriveForward(DrivetrainSubsystem drive) {
     this.drivetrainSubsystem = drive;
-    this.driveJoystick = joy;
+
+    // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drivetrainSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    drive = 0;
-    turn = 0;
+    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    drive = driveJoystick.getRawAxis(1);
-    turn = driveJoystick.getRawAxis(0);
-
-    drivetrainSubsystem.arcadeDrive(-drive, turn);
+    drivetrainSubsystem.driveForward();
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    drivetrainSubsystem.driveStop();
+  }
 
   // Returns true when the command should end.
   @Override
