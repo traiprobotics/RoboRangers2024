@@ -4,21 +4,10 @@
 
 package frc.robot;
 
-import java.sql.Driver;
-import java.util.Optional;
-
-import edu.wpi.first.net.PortForwarder;
-import edu.wpi.first.util.sendable.Sendable;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.Constants.DrivetrainConstants;
-import frc.robot.Constants.PIDConstants;
-import frc.robot.subsystems.turret.ShooterPitchSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -30,7 +19,7 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
-  SendableChooser chooser;
+  
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -41,13 +30,6 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
-
-    PortForwarder.add(5800, "photonvision.local", 5800);
-
-    chooser = new SendableChooser();
-    chooser.addOption("fuck",1);
-    chooser.addOption("shit", 2);
-    SmartDashboard.putData("i cant fucking code",chooser);
   }
 
   /**
@@ -65,9 +47,8 @@ public class Robot extends TimedRobot {
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
 
-
-    }
-  
+    
+  }
 
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
@@ -81,13 +62,6 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
-    // if (DriverStation.getAlliance().equals(Optional.of(Alliance.Blue))) {
-    //   m_robotContainer.trackedSpeakerTag = 7;
-    // } else {
-    //   m_robotContainer.trackedSpeakerTag = 4;
-    // }
-
-
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
@@ -96,9 +70,7 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during autonomous. */
   @Override
-  public void autonomousPeriodic() {
-    //m_robotContainer.autoSetDriveSpeed(DrivetrainConstants.leftAutoSpeed, DrivetrainConstants.rightAutoSpeed);
-  }
+  public void autonomousPeriodic() {}
 
   @Override
   public void teleopInit() {
@@ -106,22 +78,9 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    // Optional<Alliance> ally = DriverStation.getAlliance();
-    // if (ally.isPresent()) {
-    //   if (ally.get() == Alliance.Red) {
-    //     m_robotContainer.trackedSpeakerTag = 4;
-    //   }
-    //   if (ally.get() == Alliance.Blue) {
-    //     m_robotContainer.trackedSpeakerTag = 7;
-    //   }
-    // }
-
-
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-    m_robotContainer.teleopDefaultCommands();
-    m_robotContainer.teleopInitCommands();
   }
 
   /** This function is called periodically during operator control. */
